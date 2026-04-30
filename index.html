@@ -5,9 +5,130 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bloomerang CRM — Data Health</title>
 <link rel="stylesheet" href="https://use.typekit.net/ete4szq.css">
-<script src="https://kit.fontawesome.com/16b512d72b.js" crossorigin="anonymous"></script>
+<script src="https://kit.fontawesome.com/9b51659ddd.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
+/* ── Penny shimmer tile ── */
+.penny-wrap{position:relative;border-radius:8px;padding:3px;background:var(--penny-100);overflow:hidden;}
+@media(prefers-reduced-motion:no-preference){
+  .penny-wrap::before{content:'';position:absolute;top:0;left:-60%;width:60%;height:100%;background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,0.55) 50%,transparent 100%);animation:pw-shimmer 2s ease-in-out infinite;z-index:1;}
+  @keyframes pw-shimmer{0%{left:-60%}50%{left:160%}100%{left:160%}}
+}
+.penny-tile-inner{background:var(--white);border-radius:6px;padding:18px;position:relative;z-index:2;}
+.penny-hd{display:flex;align-items:center;gap:7px;margin-bottom:10px;}
+.penny-hd-title{font-size:18px;font-weight:600;color:var(--platform-100);line-height:24px;}
+.penny-body-txt{font-size:16px;color:var(--platform-80);line-height:24px;margin-bottom:14px;}
+.penny-body-txt strong{color:var(--platform-100);font-weight:700;}
+.penny-issue-list{list-style:none;margin-bottom:16px;}
+.penny-issue-row{display:flex;align-items:center;gap:8px;padding:5px 0;}
+.penny-issue-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.penny-issue-text{font-size:15px;color:var(--platform-80);flex:1;}
+.penny-issue-ct{font-size:15px;color:var(--platform-40);font-weight:600;}
+.penny-review-btn{display:inline-flex;align-items:center;gap:8px;background:var(--penny-100);color:var(--white);border-radius:20px;padding:9px 22px;font-size:16px;font-weight:700;cursor:pointer;border:none;font-family:var(--font);}
+.penny-review-btn:hover{background:var(--penny-200);}
+
+/* ── Dedup category tabs ── */
+.dh-cat-tabs{display:flex;align-items:stretch;border-bottom:1px solid var(--platform-20);margin:0 24px;background:var(--white);border-radius:4px 4px 0 0;}
+.dh-cat-tab-btn{display:flex;align-items:center;justify-content:center;height:48px;padding:0 32px;font-family:var(--font);font-size:16px;font-weight:400;line-height:21px;color:var(--platform-80);background:transparent;border:none;border-bottom:2px solid transparent;cursor:pointer;white-space:nowrap;margin-bottom:-1px;gap:8px;}
+.dh-cat-tab-btn:hover{color:var(--platform-100);}
+.dh-cat-tab-btn.active{font-weight:700;color:var(--platform-100);border-bottom-color:var(--crm-100);}
+.dh-cat-ct{font-size:12px;font-weight:700;background:var(--platform-10);color:var(--platform-80);padding:2px 6px;border-radius:4px;}
+.dh-cat-tab-btn.active .dh-cat-ct{background:var(--penny-5);color:var(--penny-200);}
+
+/* ── Master-detail shell ── */
+.md-shell{display:flex;margin:0 24px;background:var(--white);border-radius:0 0 4px 4px;min-height:480px;height:calc(108vh - var(--topnav-h) - 200px);margin-bottom:32px;}
+.md-master{width:320px;border-right:1px solid var(--platform-10);display:flex;flex-direction:column;flex-shrink:0;}
+.md-master-hd{padding:12px 16px;border-bottom:1px solid var(--platform-10);display:flex;align-items:center;justify-content:space-between;}
+.md-master-ct{font-size:14px;font-weight:600;color:var(--platform-100);}
+.md-master-list{flex:1;overflow-y:auto;}
+.md-item{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--platform-10);cursor:pointer;border-left:3px solid transparent;transition:background 0.1s;}
+.md-item:hover{background:#F9F9F9;}
+.md-item.active{background:#F9F9F9;border-left-color:var(--crm-100);}
+.md-item.resolved{opacity:0.45;}
+.md-item-body{flex:1;min-width:0;}
+.md-item-name{font-size:14px;font-weight:700;color:var(--platform-100);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.md-item-sub{font-size:13px;color:var(--platform-60);margin-top:2px;display:flex;align-items:center;gap:6px;}
+.md-item-reason{font-size:13px;color:var(--platform-60);font-weight:400;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block;}
+.md-item-badge{font-size:12px;font-weight:700;padding:2px 8px;border-radius:4px;flex-shrink:0;white-space:nowrap;}
+.md-item-badge-high{background:#d9e9cd;color:#317005;}
+.md-item-badge-med{background:var(--orange-10);color:#914708;}
+.md-item-badge-low{background:#fff4cc;color:#664f00;}
+.md-item-status{font-size:12px;font-weight:700;flex-shrink:0;}
+
+/* ── Detail panel ── */
+.md-detail{flex:1;display:flex;flex-direction:column;overflow-y:auto;}
+.md-detail-hd{padding:20px 24px 0;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;}
+.md-detail-title{font-size:20px;font-weight:700;color:var(--platform-100);line-height:24px;}
+.md-detail-badge{font-size:14px;font-weight:700;padding:4px 12px;border-radius:4px;white-space:nowrap;flex-shrink:0;}
+.md-detail-reason{padding:4px 24px 16px;font-size:16px;color:var(--platform-80);line-height:24px;}
+.md-detail-compare{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:20px 24px;}
+.md-detail-rec{border:1px solid var(--platform-10);border-radius:6px;padding:16px 18px;background:var(--white);}
+.md-detail-rec-lbl{font-size:14px;font-weight:700;color:var(--platform-80);letter-spacing:0;margin-bottom:12px;}
+.md-detail-field{display:flex;justify-content:space-between;padding:5px 0;font-size:14px;border-bottom:1px solid var(--platform-5);}
+.md-detail-field:last-child{border-bottom:none;}
+.md-detail-fn{color:var(--platform-60);}
+.md-detail-fv{color:var(--platform-100);font-weight:500;text-align:right;}
+.md-detail-fv.diff{color:#C60623;font-weight:600;}
+.md-detail-actions{padding:16px 24px 24px;display:flex;align-items:center;gap:8px;justify-content:flex-end;margin-top:auto;}
+
+/* ── Diff table ── */
+.diff-tbl{width:100%;border-collapse:collapse;background:var(--white);border:1px solid var(--platform-10);border-radius:6px;overflow:hidden;}
+.diff-tbl th{font-size:14px;font-weight:600;color:var(--platform-80);text-align:left;padding:12px 16px;border-bottom:1px solid var(--platform-10);background:var(--white);}
+.diff-tbl th:first-child{width:120px;min-width:120px;color:var(--platform-60);}
+.diff-tbl td{padding:12px 16px;font-size:14px;color:var(--platform-100);border-bottom:1px solid var(--platform-10);vertical-align:top;}
+.diff-tbl tr:last-child td{border-bottom:none;}
+.diff-tbl td:first-child{font-size:14px;color:var(--platform-80);font-weight:600;}
+.diff-changed{background:#F9F9F9;}
+.diff-kept{font-weight:600;color:var(--platform-100);}
+.diff-disc{text-decoration:line-through;color:var(--platform-60);}
+.diff-match-val{color:var(--platform-60);}
+td.diff-match-val{color:var(--platform-60);}
+.diff-match-note{font-size:13px;color:var(--platform-40);font-style:italic;}
+.diff-pri-badge{font-size:11px;font-weight:700;background:var(--crm-10);color:var(--crm-200);padding:2px 6px;border-radius:4px;margin-left:4px;vertical-align:middle;}
+.diff-combined-badge{font-size:11px;font-weight:700;background:var(--crm-10);color:var(--crm-200);padding:2px 6px;border-radius:4px;margin-left:4px;}
+
+/* ── Field picker ── */
+.fp-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;margin:0 24px;}
+.fp-col{padding:16px;background:var(--white);}
+.fp-col:first-child{border:1px solid var(--platform-10);border-right:none;border-radius:6px 0 0 6px;}
+.fp-col:last-child{border:1px solid var(--platform-10);border-radius:0 6px 6px 0;}
+.fp-col-lbl{font-size:14px;font-weight:700;color:var(--platform-80);margin-bottom:12px;display:flex;align-items:center;gap:6px;}
+.fp-row{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:4px;cursor:pointer;margin-bottom:2px;border:1.5px solid transparent;transition:all 0.12s;}
+.fp-row:hover{background:var(--platform-5);}
+.fp-row.fp-selected{border-color:var(--crm-100);background:var(--crm-5);}
+.fp-row.fp-dimmed{opacity:0.4;}
+.fp-row.fp-same{cursor:default;opacity:1;border-color:transparent;background:transparent;}
+.fp-row.fp-same:hover{background:transparent;}
+.fp-radio{width:16px;height:16px;border-radius:50%;border:1.5px solid var(--platform-20);flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.fp-radio.fp-on{border-color:var(--crm-100);background:var(--crm-100);}
+.fp-radio.fp-on::after{content:'';width:6px;height:6px;border-radius:50%;background:white;}
+.fp-radio.fp-hide{visibility:hidden;}
+.fp-field{flex:1;min-width:0;}
+.fp-fn{font-size:12px;color:var(--platform-60);margin-bottom:1px;}
+.fp-fv{font-size:14px;color:var(--platform-100);font-weight:500;}
+.fp-fv.fp-diff{color:#C60623;}
+.fp-static{display:flex;align-items:center;gap:8px;padding:7px 10px;margin-bottom:2px;}
+.fp-combined{font-size:11px;font-weight:700;color:var(--crm-200);background:var(--crm-10);padding:2px 6px;border-radius:4px;margin-left:4px;}
+.fp-hint{font-size:13px;color:var(--platform-60);text-align:center;padding:12px 24px 0;font-style:italic;}
+
+/* ── Confirmation state ── */
+.fp-confirm-card{margin:0 24px;border:1.5px solid var(--crm-100);border-radius:6px;padding:20px;background:var(--crm-5);}
+.fp-confirm-hd{display:flex;align-items:center;gap:8px;margin-bottom:16px;}
+.fp-confirm-name{font-size:18px;font-weight:700;color:var(--platform-100);}
+.fp-confirm-badge{font-size:12px;font-weight:700;background:var(--crm-10);color:var(--crm-200);padding:2px 8px;border-radius:4px;}
+.fp-confirm-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 24px;}
+.fp-confirm-field{display:flex;justify-content:space-between;padding:6px 0;font-size:14px;border-bottom:1px solid rgba(53,122,6,0.1);}
+.fp-confirm-field:nth-last-child(-n+2){border-bottom:none;}
+.fp-confirm-fn{color:var(--platform-60);}
+.fp-confirm-fv{color:var(--platform-100);font-weight:500;text-align:right;}
+
+/* ── Merge all high button ── */
+.dd-merge-all-btn{display:inline-flex;align-items:center;gap:6px;background:var(--penny-100);color:var(--white);border:none;border-radius:4px;padding:7px 14px;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--font);transition:background 0.15s;}
+.dd-merge-all-btn:hover{background:var(--penny-200);}
+.dd-filter-btn{display:inline-flex;align-items:center;gap:6px;background:var(--white);border:1px solid var(--platform-20);border-radius:4px;padding:6px 12px;font-size:13px;color:var(--platform-80);cursor:pointer;font-family:var(--font);}
+.dd-filter-btn:hover{border-color:var(--platform-100);color:var(--platform-100);}
+.dd-filter-btn.active{border-color:var(--penny-100);color:var(--penny-100);background:var(--penny-5);}
+
 /* ── Data Health tile ── */
 .dh-link{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:700;color:var(--crm-100);text-decoration:none;margin-top:16px;}
 .dh-link:hover{color:var(--crm-200);text-decoration:underline;}
@@ -698,15 +819,17 @@ table.atbl tr:last-child td{border-bottom:none;}
         <div class="tile" style="grid-column:3;grid-row:1;height:424px;display:flex;flex-direction:column;gap:16px;">
           <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">
             <div style="flex:1;font-size:20px;font-weight:700;line-height:24px;">Data Health</div>
+            <span class="tile-badge">Data Health Agent</span>
           </div>
           <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;border-bottom:1px solid var(--platform-20);padding-bottom:16px;gap:6px;">
-            <div style="font-size:56px;font-weight:700;line-height:1;color:var(--platform-100);">40</div>
-            <div style="font-size:14px;color:var(--platform-100);">Records Need Review</div>
-            <button class="dh-btn dh-btn--ghost" onclick="showView('datahealth')" style="margin-top:12px;font-size:16px;">Review issues</button>
+            <div style="font-size:56px;font-weight:700;line-height:1;color:var(--platform-100);">18</div>
+            <div style="font-size:14px;color:var(--platform-100);">Potential Duplicate Constituents</div>
+            <button class="dh-btn dh-btn--ghost" onclick="showView('datahealth')" style="margin-top:12px;font-size:16px;">Review duplicates</button>
           </div>
           <div style="display:flex;gap:16px;flex-shrink:0;">
-            <div class="accent-stat"><div class="accent-bar" style="background:#D4A200"></div><div><div style="font-size:29px;font-weight:700;line-height:35px;">28</div><div style="font-size:12px;color:var(--platform-100);">All Caps</div></div></div>
-            <div class="accent-stat"><div class="accent-bar" style="background:var(--blue-100)"></div><div><div style="font-size:29px;font-weight:700;line-height:35px;">12</div><div style="font-size:12px;color:var(--platform-100);">All Lowercase</div></div></div>
+            <div class="accent-stat"><div class="accent-bar" style="background:var(--crm-100)"></div><div><div style="font-size:29px;font-weight:700;line-height:35px;">5</div><div style="font-size:12px;color:var(--platform-100);">High Confidence</div></div></div>
+            <div class="accent-stat"><div class="accent-bar" style="background:var(--orange-100)"></div><div><div style="font-size:29px;font-weight:700;line-height:35px;">7</div><div style="font-size:12px;color:var(--platform-100);">Medium</div></div></div>
+            <div class="accent-stat"><div class="accent-bar" style="background:var(--platform-40)"></div><div><div style="font-size:29px;font-weight:700;line-height:35px;">6</div><div style="font-size:12px;color:var(--platform-100);">Low</div></div></div>
           </div>
         </div>
 
@@ -1014,42 +1137,40 @@ table.atbl tr:last-child td{border-bottom:none;}
 
     </div><!-- /view-dashboard -->
 
-    <!-- ═══ DATA HEALTH VIEW ═══ -->
+    <!-- ═══ DATA HEALTH VIEW — MASTER-DETAIL ═══ -->
     <div class="view" id="view-datahealth">
       <div class="page-hd">
         <div class="page-hd-row">
           <div>
             <h1 class="page-title">Data health</h1>
-            <p class="page-sub">Records with data quality issues that may affect your outreach and donor matching.</p>
-            <p style="font-size:16px;color:var(--platform-100);margin-top:12px;">Last scanned: April 21, 2026 at 3:42 PM</p>
+            <p class="page-sub">Review and resolve duplicate constituent records in your database.</p>
+          </div>
+          <div style="flex-shrink:0;font-size:14px;color:var(--platform-60);padding-top:8px;">Last scanned: April 30, 2026 at 10:14 AM</div>
+        </div>
+      </div>
+
+      <!-- Master-detail split -->
+      <div class="md-shell" id="md-shell">
+        <!-- Master list -->
+        <div class="md-master" id="md-master">
+          <div class="md-master-list" id="md-master-list"></div>
+        </div>
+        <!-- Detail panel -->
+        <div class="md-detail" id="md-detail">
+          <div id="md-detail-content"></div>
+          <div id="md-detail-empty" style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:var(--platform-60);font-size:16px;gap:8px;">
+            <i class="fa-solid fa-arrow-left" style="font-size:24px;color:var(--platform-20);"></i>
+            <span>Select a pair to review</span>
           </div>
         </div>
       </div>
-      <div role="tablist" style="display:flex;align-items:stretch;border-bottom:1px solid var(--platform-20);margin:0 24px;background:var(--white);">
-        <button class="dh-tab active" role="tab" aria-selected="true" aria-controls="dh-tabpanel" data-view="active" onclick="dhSetView(this)">To Review <span class="dh-tab-count" id="dh-count-active">40</span></button>
-        <button class="dh-tab" role="tab" aria-selected="false" aria-controls="dh-tabpanel" data-view="resolved" onclick="dhSetView(this)">Resolved <span class="dh-tab-count" id="dh-count-resolved">0</span></button>
-      </div>
-      <div id="dh-tabpanel" role="tabpanel" style="padding:0 24px 32px;">
-        <table id="dh-table">
-          <caption id="dh-caption" class="sr-only">Name formatting issues to review</caption>
-          <colgroup id="dh-colgroup"></colgroup>
-          <thead id="dh-thead"></thead>
-          <tbody id="dh-tbody"></tbody>
-        </table>
-        <div id="dh-empty" style="display:none;padding:64px 24px;text-align:center;background:var(--white);"></div>
-        <div id="dh-pagination" style="display:flex;align-items:center;justify-content:flex-end;gap:24px;padding:12px 24px;background:var(--white);border-top:1px solid var(--platform-10);font-size:14px;color:var(--platform-60);">
-          <div style="display:flex;align-items:center;gap:8px;"><label for="dh-pagesize">Rows per page:</label> <select id="dh-pagesize" onchange="dhPageSize(this)" style="font-family:var(--font);font-size:14px;color:var(--platform-100);border:none;background:transparent;font-weight:600;cursor:pointer;"><option value="10" selected>10</option><option value="25">25</option><option value="50">50</option></select></div>
-          <span id="dh-range" style="font-size:14px;color:var(--platform-100);"></span>
-          <div style="display:flex;align-items:center;gap:8px;">
-            <button id="dh-prev" aria-label="Previous page" onclick="dhPage(-1)" style="width:32px;height:32px;display:flex;align-items:center;justify-content:center;border:none;background:transparent;color:var(--platform-40);cursor:pointer;font-size:16px;border-radius:4px;" disabled><i class="fa-solid fa-chevron-left" aria-hidden="true"></i></button>
-            <button id="dh-next" aria-label="Next page" onclick="dhPage(1)" style="width:32px;height:32px;display:flex;align-items:center;justify-content:center;border:none;background:transparent;color:var(--platform-40);cursor:pointer;font-size:16px;border-radius:4px;"><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></button>
-          </div>
-        </div>
-      </div>
-      <div id="dh-toast" role="status" aria-live="polite" style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:#272D30;color:var(--white);padding:12px 16px;border-radius:4px;font-size:17px;font-weight:400;line-height:20px;display:flex;align-items:center;gap:8px;width:530px;box-shadow:0 4px 16px rgba(0,0,0,0.2);z-index:1000;transition:transform 0.25s ease;pointer-events:none;">
+
+      <!-- Toast -->
+      <div id="dd-toast" role="status" aria-live="polite" style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:#272D30;color:var(--white);padding:12px 16px;border-radius:4px;font-size:17px;font-weight:400;line-height:20px;display:flex;align-items:center;gap:8px;width:530px;box-shadow:0 4px 16px rgba(0,0,0,0.2);z-index:1000;transition:transform 0.25s ease;pointer-events:none;">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style="flex-shrink:0;"><circle cx="12" cy="12" r="10" fill="#3F9107"/><path d="M10.5 15.25L7.75 12.5L8.75 11.5L10.5 13.25L15.25 8.5L16.25 9.5L10.5 15.25Z" fill="white"/></svg>
-        <span id="dh-toast-msg" style="flex:1;"></span>
-        <button aria-label="Dismiss notification" onclick="document.getElementById('dh-toast').style.transform='translateX(-50%) translateY(80px)';document.getElementById('dh-toast').style.pointerEvents='none';" style="background:none;border:none;color:white;font-size:18px;cursor:pointer;padding:0;line-height:1;flex-shrink:0;opacity:0.7;">✕</button>
+        <span id="dd-toast-msg" style="flex:1;"></span>
+        <button id="dd-toast-undo" onclick="ddToastUndo()" style="background:none;border:none;color:white;font-size:16px;font-weight:700;cursor:pointer;padding:0;text-decoration:underline;flex-shrink:0;display:none;">Undo</button>
+        <button aria-label="Dismiss" onclick="ddHideToast()" style="background:none;border:none;color:white;font-size:18px;cursor:pointer;padding:0;line-height:1;flex-shrink:0;opacity:0.7;">✕</button>
       </div>
     </div><!-- /view-datahealth -->
 
@@ -2767,116 +2888,161 @@ function openPennyWithPrompt(text) {
 }
 
 // ═══ DATA HEALTH QUEUE ═══
-var dhRecords=[
-{id:1,first:'ROBERT',last:'JOHNSON',issue:'caps',conf:'high',sug_f:'Robert',sug_l:'Johnson',status:'unreviewed'},
-{id:2,first:'PATRICIA',last:'WILLIAMS',issue:'caps',conf:'high',sug_f:'Patricia',sug_l:'Williams',status:'unreviewed'},
-{id:3,first:'jennifer',last:'martinez',issue:'lower',conf:'high',sug_f:'Jennifer',sug_l:'Martinez',status:'unreviewed'},
-{id:4,first:'MICHAEL',last:'BROWN',issue:'caps',conf:'high',sug_f:'Michael',sug_l:'Brown',status:'unreviewed'},
-{id:5,first:'SEAN',last:'MCDONALD',issue:'caps',conf:'low',sug_f:'Sean',sug_l:'McDonald',status:'unreviewed'},
-{id:6,first:'JAMES',last:'WILSON',issue:'caps',conf:'high',sug_f:'James',sug_l:'Wilson',status:'unreviewed'},
-{id:7,first:'ELIZABETH',last:'MOORE',issue:'caps',conf:'high',sug_f:'Elizabeth',sug_l:'Moore',status:'unreviewed'},
-{id:8,first:'david',last:'taylor',issue:'lower',conf:'high',sug_f:'David',sug_l:'Taylor',status:'unreviewed'},
-{id:9,first:'CONNOR',last:'O\'BRIEN',issue:'caps',conf:'low',sug_f:'Connor',sug_l:'O\'Brien',status:'unreviewed'},
-{id:10,first:'WILLIAM',last:'THOMAS',issue:'caps',conf:'high',sug_f:'William',sug_l:'Thomas',status:'unreviewed'},
-{id:11,first:'susan',last:'jackson',issue:'lower',conf:'high',sug_f:'Susan',sug_l:'Jackson',status:'unreviewed'},
-{id:12,first:'RICHARD',last:'WHITE',issue:'caps',conf:'high',sug_f:'Richard',sug_l:'White',status:'unreviewed'},
-{id:13,first:'MARIA',last:'DEMARCO',issue:'caps',conf:'low',sug_f:'Maria',sug_l:'DeMarco',status:'unreviewed'},
-{id:14,first:'charles',last:'martin',issue:'lower',conf:'high',sug_f:'Charles',sug_l:'Martin',status:'unreviewed'},
-{id:15,first:'THOMAS',last:'ANDERSON',issue:'caps',conf:'high',sug_f:'Thomas',sug_l:'Anderson',status:'unreviewed'},
-{id:16,first:'MARGARET',last:'JACKSON',issue:'caps',conf:'high',sug_f:'Margaret',sug_l:'Jackson',status:'unreviewed'},
-{id:17,first:'JOSEPH',last:'HARRIS',issue:'caps',conf:'high',sug_f:'Joseph',sug_l:'Harris',status:'unreviewed'},
-{id:18,first:'lisa',last:'robinson',issue:'lower',conf:'high',sug_f:'Lisa',sug_l:'Robinson',status:'unreviewed'},
-{id:19,first:'DANIEL',last:'CLARK',issue:'caps',conf:'high',sug_f:'Daniel',sug_l:'Clark',status:'unreviewed'},
-{id:20,first:'NANCY',last:'LEWIS',issue:'caps',conf:'high',sug_f:'Nancy',sug_l:'Lewis',status:'unreviewed'},
-{id:21,first:'CHRISTOPHER',last:'MCCARTHY',issue:'caps',conf:'low',sug_f:'Christopher',sug_l:'McCarthy',status:'unreviewed'},
-{id:22,first:'karen',last:'lee',issue:'lower',conf:'high',sug_f:'Karen',sug_l:'Lee',status:'unreviewed'},
-{id:23,first:'MATTHEW',last:'WALKER',issue:'caps',conf:'high',sug_f:'Matthew',sug_l:'Walker',status:'unreviewed'},
-{id:24,first:'BETTY',last:'HALL',issue:'caps',conf:'high',sug_f:'Betty',sug_l:'Hall',status:'unreviewed'},
-{id:25,first:'ANTHONY',last:'ALLEN',issue:'caps',conf:'high',sug_f:'Anthony',sug_l:'Allen',status:'unreviewed'},
-{id:26,first:'DONALD',last:'YOUNG',issue:'caps',conf:'high',sug_f:'Donald',sug_l:'Young',status:'unreviewed'},
-{id:27,first:'michelle',last:'king',issue:'lower',conf:'high',sug_f:'Michelle',sug_l:'King',status:'unreviewed'},
-{id:28,first:'SANDRA',last:'SCOTT',issue:'caps',conf:'high',sug_f:'Sandra',sug_l:'Scott',status:'unreviewed'},
-{id:29,first:'KEVIN',last:'O\'MALLEY',issue:'caps',conf:'low',sug_f:'Kevin',sug_l:'O\'Malley',status:'unreviewed'},
-{id:30,first:'KIMBERLY',last:'ADAMS',issue:'caps',conf:'high',sug_f:'Kimberly',sug_l:'Adams',status:'unreviewed'},
-{id:31,first:'DONNA',last:'BAKER',issue:'caps',conf:'high',sug_f:'Donna',sug_l:'Baker',status:'unreviewed'},
-{id:32,first:'emily',last:'gonzalez',issue:'lower',conf:'high',sug_f:'Emily',sug_l:'Gonzalez',status:'unreviewed'},
-{id:33,first:'PAUL',last:'FITZPATRICK',issue:'caps',conf:'low',sug_f:'Paul',sug_l:'Fitzpatrick',status:'unreviewed'},
-{id:34,first:'CAROL',last:'HILL',issue:'caps',conf:'high',sug_f:'Carol',sug_l:'Hill',status:'unreviewed'},
-{id:35,first:'MARK',last:'RAMIREZ',issue:'caps',conf:'high',sug_f:'Mark',sug_l:'Ramirez',status:'unreviewed'},
-{id:36,first:'amanda',last:'campbell',issue:'lower',conf:'high',sug_f:'Amanda',sug_l:'Campbell',status:'unreviewed'},
-{id:37,first:'GEORGE',last:'MITCHELL',issue:'caps',conf:'high',sug_f:'George',sug_l:'Mitchell',status:'unreviewed'},
-{id:38,first:'BRIAN',last:'MCLAUGHLIN',issue:'caps',conf:'low',sug_f:'Brian',sug_l:'McLaughlin',status:'unreviewed'},
-{id:39,first:'stephanie',last:'carter',issue:'lower',conf:'high',sug_f:'Stephanie',sug_l:'Carter',status:'unreviewed'},
-{id:40,first:'KENNETH',last:'PHILLIPS',issue:'caps',conf:'high',sug_f:'Kenneth',sug_l:'Phillips',status:'unreviewed'}
+// ── Dedup Data ──
+var DD=[
+  {id:0,conf:'high',pct:96,nA:'Margaret Thompson',nB:'Maggie Thompson',eA:'mthompson@gmail.com',eB:'maggie.t@gmail.com',pA:'(813) 555-0142',pB:'(813) 555-0142',aA:'4201 Bayshore Blvd, Tampa',aB:'4201 Bayshore Blvd, Tampa',gA:'$4,250',gB:'$1,800',tot:'$6,050',lA:'03/15/2026',lB:'11/02/2025',reason:'Same phone and address. Name is a common nickname variation.'},
+  {id:1,conf:'high',pct:93,nA:'Robert Chen',nB:'Robert Chen',eA:'rchen@chenlaw.com',eB:'robert.chen@outlook.com',pA:'(813) 555-0298',pB:'(813) 555-0298',aA:'1100 N Tampa St',aB:'1100 N Tampa St, Ste 200',gA:'$2,500',gB:'$750',tot:'$3,250',lA:'01/20/2026',lB:'09/14/2025',reason:'Exact name match, same phone. Address differs only by suite number.'},
+  {id:2,conf:'high',pct:91,nA:'Elizabeth Warren-Hayes',nB:'Beth Warren-Hayes',eA:'ewarrenhayes@gmail.com',eB:'beth.wh@gmail.com',pA:'(813) 555-0511',pB:'(813) 555-0511',aA:'3920 Henderson Blvd',aB:'3920 Henderson Blvd',gA:'$3,100',gB:'$600',tot:'$3,700',lA:'02/10/2026',lB:'08/22/2025',reason:'Same phone and address. Beth is a common short form of Elizabeth.'},
+  {id:3,conf:'high',pct:90,nA:'William Foster',nB:'William Foster',eA:'wfoster@fosterandco.com',eB:'will.foster@yahoo.com',pA:'(813) 555-0389',pB:'(813) 555-0390',aA:'501 E Kennedy Blvd, Ste 1400',aB:'501 E Kennedy Blvd',gA:'$5,000',gB:'$250',tot:'$5,250',lA:'04/05/2026',lB:'12/18/2025',reason:'Exact name match, same building. Phone numbers differ by one digit — likely typo.'},
+  {id:4,conf:'high',pct:88,nA:'Catherine O\'Brien',nB:'Cathy Obrien',eA:'cobrien@outlook.com',eB:'cathyobrien@aol.com',pA:'(727) 555-0234',pB:'(727) 555-0234',aA:'890 Main St, Dunedin',aB:'890 Main St, Dunedin',gA:'$1,500',gB:'$425',tot:'$1,925',lA:'01/03/2026',lB:'06/15/2025',reason:'Same phone and address. Apostrophe missing in last name on record B. Nickname match.'},
+  {id:5,conf:'med',pct:78,nA:'Sarah Williams',nB:'Sarah Williams-Park',eA:'swilliams@yahoo.com',eB:'sarah.park@gmail.com',pA:'(727) 555-0187',pB:'(727) 555-0187',aA:'620 Palm Harbor Dr',aB:'1482 Clearwater Rd',gA:'$800',gB:'$475',tot:'$1,275',lA:'02/28/2026',lB:'04/10/2026',reason:'Same phone number. Name change may indicate marriage. Different addresses.'},
+  {id:6,conf:'med',pct:75,nA:'Michael Fernandez',nB:'Mike Fernandez',eA:'mfernandez@hillsborough.org',eB:'mikef77@gmail.com',pA:'(813) 555-0667',pB:'—',aA:'2115 N Dale Mabry Hwy',aB:'2115 N Dale Mabry Hwy',gA:'$350',gB:'$100',tot:'$450',lA:'11/20/2025',lB:'03/01/2026',reason:'Same address, nickname variation. Second record missing phone — likely online donation form entry.'},
+  {id:7,conf:'med',pct:72,nA:'James Rodriguez',nB:'Jim Rodriguez',eA:'jrodriguez@nonprofitboard.org',eB:'jimr2024@gmail.com',pA:'(813) 555-0334',pB:'—',aA:'8800 Riverview Dr',aB:'8800 Riverview Dr',gA:'$500',gB:'$150',tot:'$650',lA:'12/01/2025',lB:'03/22/2026',reason:'Same address, nickname variation. Second record has no phone — possible event registration import.'},
+  {id:8,conf:'med',pct:70,nA:'Jennifer Martinez',nB:'Jenny Martinez',eA:'jmartinez@tampabay.rr.com',eB:'jenny.martinez@gmail.com',pA:'(813) 555-0198',pB:'(813) 555-0198',aA:'7400 S Westshore Blvd',aB:'7402 S Westshore Blvd, Apt 3B',gA:'$1,200',gB:'$300',tot:'$1,500',lA:'03/30/2026',lB:'01/14/2026',reason:'Same phone, nickname match. Addresses are same building — one includes apartment number.'},
+  {id:9,conf:'med',pct:68,nA:'Thomas Richardson',nB:'Tom Richardson',eA:'trichardson@richardson.law',eB:'tom.r@protonmail.com',pA:'—',pB:'(813) 555-0772',aA:'400 N Ashley Dr',aB:'400 N Ashley Dr, Ste 2600',gA:'$2,000',gB:'$500',tot:'$2,500',lA:'04/12/2026',lB:'02/28/2026',reason:'Same building, nickname variation. Record A missing phone. Different email domains.'},
+  {id:10,conf:'med',pct:65,nA:'Patricia Nguyen',nB:'Pat Nguyen',eA:'patricia.n@outlook.com',eB:'pat.nguyen@outlook.com',pA:'—',pB:'(941) 555-0221',aA:'3300 S Tamiami Trail',aB:'3305 S Tamiami Trail',gA:'$200',gB:'$347',tot:'$547',lA:'10/15/2025',lB:'01/08/2026',reason:'Similar email pattern at same domain. Nearby addresses. Nickname match.'},
+  {id:11,conf:'med',pct:62,nA:'Linda Morrison',nB:'Linda M. Morrison',eA:'lmorrison@aol.com',eB:'lindamorrison@gmail.com',pA:'(813) 555-0856',pB:'(813) 555-0857',aA:'1200 S Howard Ave',aB:'1200 S Howard Ave, Unit 4',gA:'$750',gB:'$175',tot:'$925',lA:'09/20/2025',lB:'02/05/2026',reason:'Same address (one has unit number). Middle initial added on record B. Phone numbers off by one digit.'},
+  {id:12,conf:'low',pct:48,nA:'Susan Clark',nB:'Susan Clarke',eA:'sclark@verizon.net',eB:'susan.clarke@outlook.com',pA:'(813) 555-0923',pB:'(352) 555-0445',aA:'5600 W Spruce St',aB:'210 Oak Hammock Dr, Ocala',gA:'$400',gB:'$150',tot:'$550',lA:'07/12/2025',lB:'11/30/2025',reason:'Same first name, last name differs by one letter (Clark vs Clarke). Different city and phone. May be different people.'},
+  {id:13,conf:'low',pct:45,nA:'Richard Anderson',nB:'Rich Anderson',eA:'randerson@gmail.com',eB:'rich.anderson@hotmail.com',pA:'(813) 555-0101',pB:'(941) 555-0303',aA:'9100 N Florida Ave',aB:'4500 Bee Ridge Rd, Sarasota',gA:'$600',gB:'$225',tot:'$825',lA:'01/28/2026',lB:'03/15/2026',reason:'Nickname match but different city, phone, and email domain. Could be same person who moved or two different people.'},
+  {id:14,conf:'low',pct:42,nA:'David Kim',nB:'David K. Kim',eA:'dkim@techcorp.com',eB:'davidkim@gmail.com',pA:'(813) 555-0445',pB:'(407) 555-0112',aA:'2200 W Kennedy Blvd',aB:'950 Orange Ave, Orlando',gA:'$1,000',gB:'$75',tot:'$1,075',lA:'04/01/2026',lB:'02/14/2026',reason:'Same first and last name with middle initial. Different city, phone, and email. May be different people.'},
+  {id:15,conf:'low',pct:40,nA:'Karen Lee',nB:'Karen Lee',eA:'karenlee@tampabay.rr.com',eB:'klee2024@gmail.com',pA:'(813) 555-0567',pB:'(239) 555-0890',aA:'4400 Boy Scout Blvd',aB:'1100 5th Ave S, Naples',gA:'$300',gB:'$50',tot:'$350',lA:'08/05/2025',lB:'04/20/2026',reason:'Exact name match but different city, phone, and email. Common name — likely different people.'},
+  {id:16,conf:'low',pct:38,nA:'John Miller',nB:'Jonathan Miller',eA:'jmiller@tampagov.net',eB:'jon.miller@gmail.com',pA:'(813) 555-0712',pB:'(813) 555-0999',aA:'306 E Jackson St',aB:'1515 N Westshore Blvd',gA:'$2,200',gB:'$100',tot:'$2,300',lA:'03/08/2026',lB:'12/22/2025',reason:'John/Jonathan variant, same area code but different phone and address. Giving patterns differ significantly.'},
+  {id:17,conf:'low',pct:35,nA:'Nancy Wilson',nB:'Nancy J. Wilson',eA:'nwilson@nonprofit.org',eB:'nancywilson@yahoo.com',pA:'(727) 555-0321',pB:'(941) 555-0654',aA:'200 Central Ave, St Petersburg',aB:'3800 Tuttle Ave, Sarasota',gA:'$1,800',gB:'$125',tot:'$1,925',lA:'02/18/2026',lB:'04/02/2026',reason:'Same first/last with middle initial. Different cities (St Pete vs Sarasota). Common name — low likelihood of match.'}
 ];
-var dhView='active',dhEdit=null,dhSort='conf',dhSortDir='asc',dhPage_=0,dhSize=10;
-function dhEsc(s){var d=document.createElement('div');d.textContent=s;return d.innerHTML;}
-function dhEscA(s){return s.replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+var ddState={},ddStatus='active',ddFilterHigh=false,ddActiveId=null;
 
-function dhFiltered(){
-  var list=dhRecords.filter(function(r){return dhView==='active'?r.status==='unreviewed':r.status!=='unreviewed';});
-  if(dhSort){list.sort(function(a,b){var va,vb;if(dhSort==='name'){va=a.first+' '+a.last;vb=b.first+' '+b.last;}else if(dhSort==='issue'){va=a.issue;vb=b.issue;}else if(dhSort==='conf'){va=a.conf==='high'?0:1;vb=b.conf==='high'?0:1;}else{va='';vb='';}if(typeof va==='number')return dhSortDir==='asc'?va-vb:vb-va;va=String(va).toLowerCase();vb=String(vb).toLowerCase();return dhSortDir==='asc'?va.localeCompare(vb):vb.localeCompare(va);});}
-  return list;
+function ddSetStatus(el){document.querySelectorAll('.dh-tab').forEach(function(t){t.classList.remove('active');t.setAttribute('aria-selected','false');});el.classList.add('active');el.setAttribute('aria-selected','true');ddStatus=el.getAttribute('data-status');ddActiveId=null;ddRender();}
+function ddToggleFilter(el){ddFilterHigh=!ddFilterHigh;el.classList.toggle('active');ddActiveId=null;ddRender();}
+function ddFiltered(){var l=DD.filter(function(d){return ddStatus==='active'?!ddState[d.id]:!!ddState[d.id];});if(ddFilterHigh&&ddStatus==='active')l=l.filter(function(d){return d.conf==='high';});return l;}
+
+function ddMerge(id){
+  ddState[id]='merged';
+  var d=DD.find(function(x){return x.id===id;});
+  ddToast('Records merged: '+d.nA,id);
+  var items=ddFiltered();
+  if(items.length>0){ddActiveId=items[0].id;}else{ddActiveId=null;}
+  ddRender();
 }
-function dhToggleSort(col){if(dhSort===col){dhSortDir=dhSortDir==='asc'?'desc':'asc';}else{dhSort=col;dhSortDir='asc';}dhPage_=0;dhRender();}
-function dhSortTh(label,col,w){var a=dhSort===col;var icon=!a?'<i class="fa-solid fa-sort dh-sort-icon" aria-hidden="true"></i>':dhSortDir==='asc'?'<i class="fa-solid fa-sort-up dh-sort-icon" aria-hidden="true"></i>':'<i class="fa-solid fa-sort-down dh-sort-icon" aria-hidden="true"></i>';var ws=w?'style="width:'+w+'px" ':'';var sortAttr=a?(dhSortDir==='asc'?'aria-sort="ascending"':'aria-sort="descending"'):'aria-sort="none"';return '<th '+ws+sortAttr+' '+(a?'class="active" ':'')+'onclick="dhToggleSort(\''+col+'\')">'+label+' '+icon+'</th>';}
+function ddIgnore(id){
+  ddState[id]='ignored';
+  ddToast('Pair ignored',id);
+  var items=ddFiltered();
+  if(items.length>0){ddActiveId=items[0].id;}else{ddActiveId=null;}
+  ddRender();
+}
+function ddUndo(id){
+  delete ddState[id];
+  ddToast('Moved back to review');
+  ddActiveId=id;
+  ddRender();
+}
+function ddMergeAllHigh(){
+  var ct=0;
+  DD.forEach(function(d){if(d.conf==='high'&&!ddState[d.id]){ddState[d.id]='merged';ct++;}});
+  if(ct===0){ddToast('No high-confidence pairs to merge');return;}
+  ddToast('Merged '+ct+' high-confidence pairs');
+  ddActiveId=null;
+  ddRender();
+}
+function ddSelectItem(id){ddActiveId=id;ddRenderDetail();ddRenderList();}
 
-function dhRender(){
-  var tbody=document.getElementById('dh-tbody');var thead=document.getElementById('dh-thead');var cg=document.getElementById('dh-colgroup');var cap=document.getElementById('dh-caption');tbody.innerHTML='';cg.innerHTML='';
-  cap.textContent=dhView==='resolved'?'Resolved name formatting issues':'Name formatting issues to review';
-  if(dhView==='resolved'){
-    thead.innerHTML='<tr><th>Original name</th>'+dhSortTh('Issue','issue')+dhSortTh('Confidence','conf')+'<th>Updated name</th><th>Status</th><th style="width:1%;white-space:nowrap"></th></tr>';
-  }else{
-    thead.innerHTML='<tr>'+dhSortTh('Constituent','name')+dhSortTh('Issue','issue')+dhSortTh('Confidence','conf')+'<th style="min-width:370px">Suggested correction</th><th style="width:1%;white-space:nowrap"></th></tr>';
+function ddRender(){
+  ddUpdateCounts();
+  ddRenderList();
+  ddRenderDetail();
+}
+
+function ddUpdateCounts(){}
+
+function ddRenderList(){
+  var items=ddFiltered();
+  var list=document.getElementById('md-master-list');
+  list.innerHTML='';
+
+  if(items.length===0){
+    list.innerHTML='<div style="padding:32px 16px;text-align:center;color:var(--platform-60);font-size:14px;">'+(ddStatus==='resolved'?'No resolved items yet':'All caught up — no duplicates to review')+'</div>';
+    return;
   }
-  var all=dhFiltered(),total=all.length,pages=Math.ceil(total/dhSize);if(dhPage_>=pages&&pages>0)dhPage_=pages-1;
-  var start=dhPage_*dhSize,items=all.slice(start,start+dhSize);
-  var tbl=document.getElementById('dh-table'),emp=document.getElementById('dh-empty'),pag=document.getElementById('dh-pagination');
-  if(total===0){tbl.style.display='none';pag.style.display='none';emp.style.display='block';emp.innerHTML=dhView==='resolved'?'<div style="font-size:16px;font-weight:600;color:var(--platform-100);margin-bottom:4px;">No resolved items yet</div><div style="font-size:14px;color:var(--platform-60);">Records you accept or dismiss will appear here</div>':'<div style="font-size:16px;font-weight:600;color:var(--platform-100);margin-bottom:4px;">All caught up</div><div style="font-size:14px;color:var(--platform-60);">No data quality issues to review right now</div>';}
-  else{tbl.style.display='table';emp.style.display='none';pag.style.display='flex';document.getElementById('dh-range').textContent=(start+1)+'–'+Math.min(start+dhSize,total)+' of '+total;document.getElementById('dh-prev').disabled=dhPage_===0;document.getElementById('dh-next').disabled=dhPage_>=pages-1;}
-  items.forEach(function(r){
-    var ed=dhEdit===r.id;var il=r.issue==='caps'?'All caps':'All lowercase';var ic=r.issue==='caps'?'dh-badge--caps':'dh-badge--lower';
-    var cl=r.conf==='high'?'High':'Needs review';var cc=r.conf==='high'?'dh-badge--high':'dh-badge--low';
-    var ci='';
-    var tr=document.createElement('tr');
-    if(dhView==='resolved'){
-      var sh='',rt='';
-      if(r.status==='corrected')sh='Corrected';
-      else if(r.status==='dismissed'){sh='Dismissed';if(r.dismiss_reason==='looks_correct')rt='<div class="dh-dismiss-reason">Name looks correct</div>';else if(r.dismiss_reason==='later')rt='<div class="dh-dismiss-reason">Will handle later</div>';else rt='<div class="dh-dismiss-reason">Something else</div>';}
-      var un=r.status==='corrected'?'<span class="dh-suggested">'+dhEsc(r.sug_f)+' '+dhEsc(r.sug_l)+'</span>':'<span style="color:var(--platform-40)">—</span>';
-      tr.innerHTML='<td><span style="text-decoration:line-through;color:var(--platform-80)">'+dhEsc(r.original_first||r.first)+' '+dhEsc(r.original_last||r.last)+'</span></td><td>'+il+'</td><td>'+cl+'</td><td>'+un+'</td><td>'+sh+rt+'</td><td style="width:1%;white-space:nowrap;text-align:right"><div class="dh-actions" style="justify-content:flex-end"><button class="dh-btn dh-btn--pri" onclick="dhUndo('+r.id+')">Undo</button><button class="dh-btn dh-btn--ghost">View profile</button></div></td>';
-    }else{
-      var sc='',ac='';
-      if(ed){sc='<div class="dh-inline-edit"><input class="dh-inline-input" id="dhef-'+r.id+'" aria-label="Edit suggested name" value="'+dhEscA(r.sug_f+' '+r.sug_l)+'"><div class="dh-inline-actions"><button class="dh-btn dh-btn--pri" onclick="dhSaveEdit('+r.id+')">Accept</button><button class="dh-btn dh-btn--ghost" onclick="dhCancelEdit()">Cancel</button></div></div>';ac='__empty__';}
-      else{sc='<span class="dh-suggested">'+dhEsc(r.sug_f)+' '+dhEsc(r.sug_l)+'</span> <a class="dh-edit-link" href="#" onclick="event.preventDefault();dhStartEdit('+r.id+')">Edit</a>';var bc=r.conf==='high'?'dh-btn--pri':'dh-btn--sec';ac='<div class="dh-actions"><button class="dh-btn '+bc+'" onclick="dhAccept('+r.id+')">Accept</button><div class="dh-dismiss-wrap"><button class="dh-btn dh-btn--ghost" aria-haspopup="true" aria-expanded="false" onclick="dhToggleDismiss('+r.id+')">Dismiss</button><div class="dh-dismiss-menu" id="dhd-'+r.id+'" role="menu" aria-label="Dismiss reason"><div class="dh-dismiss-title" id="dhdt-'+r.id+'">Reason for dismissing</div><button class="dh-dismiss-opt" role="menuitem" onclick="dhDismiss('+r.id+',\'looks_correct\')">This name looks correct to me</button><button class="dh-dismiss-opt" role="menuitem" onclick="dhDismiss('+r.id+',\'later\')">I\'ll handle this later</button><button class="dh-dismiss-opt" role="menuitem" onclick="dhDismiss('+r.id+',\'other\')">Something else</button></div></div></div>';}
-      var actionsTd = ac==='__empty__' ? '<td style="width:0;padding:0"></td>' : '<td style="width:1%;white-space:nowrap;text-align:right">'+ac+'</td>';
-      tr.innerHTML='<td><a class="dh-name-link" href="#">'+dhEsc(r.first)+' '+dhEsc(r.last)+'</a></td><td>'+il+'</td><td>'+cl+'</td><td style="min-width:370px">'+sc+'</td>'+actionsTd;
+
+  var lastConf='';
+  items.forEach(function(d){
+    // Section headers
+    if(ddStatus==='active'&&d.conf!==lastConf){
+      lastConf=d.conf;
+      var lbl=d.conf==='high'?'High confidence':d.conf==='med'?'Medium confidence':'Low confidence';
+      var color=d.conf==='high'?'var(--crm-100)':d.conf==='med'?'var(--orange-100)':'var(--platform-40)';
+      var tierCount=items.filter(function(x){return x.conf===d.conf;}).length;
+      list.innerHTML+='<div style="padding:16px;background:var(--white);font-size:14px;font-weight:700;color:var(--platform-80);display:flex;align-items:center;gap:6px;border-bottom:1px solid var(--platform-10);"><span style="width:8px;height:8px;border-radius:50%;background:'+color+';flex-shrink:0;"></span>'+lbl+' <span style="font-weight:400;color:var(--platform-80);">\u00b7 '+tierCount+'</span></div>';
     }
-    tbody.appendChild(tr);
+
+    var isActive=ddActiveId===d.id;
+    var isRes=!!ddState[d.id];
+    var bc=d.conf==='high'?'md-item-badge-high':d.conf==='med'?'md-item-badge-med':'md-item-badge-low';
+    var statusHtml='';
+    if(isRes){
+      var sc=ddState[d.id]==='merged'?'color:#317005':'color:#914708';
+      var sl=ddState[d.id]==='merged'?'Merged':'Ignored';
+      statusHtml='<span class="md-item-status" style="'+sc+'">'+sl+'</span>';
+    }
+
+    list.innerHTML+='<div class="md-item'+(isActive?' active':'')+(isRes?' resolved':'')+'" onclick="ddSelectItem('+d.id+')">' +
+      '<div class="md-item-body">' +
+        '<div class="md-item-name">'+d.nA+' \u2194 '+d.nB+'</div>' +
+        '<div class="md-item-sub"><span class="md-item-reason">'+d.reason.split('.')[0]+'</span></div>' +
+      '</div>' +
+      (statusHtml||'<span class="md-item-badge '+bc+'">'+d.pct+'%</span>') +
+    '</div>';
   });
-  var act=dhRecords.filter(function(r){return r.status==='unreviewed';}).length;
-  document.getElementById('dh-count-active').textContent=act;
-  document.getElementById('dh-count-resolved').textContent=dhRecords.length-act;
 }
-function dhSetView(el){dhView=el.getAttribute('data-view');document.querySelectorAll('.dh-tab').forEach(function(t){t.classList.remove('active');t.setAttribute('aria-selected','false');});el.classList.add('active');el.setAttribute('aria-selected','true');dhEdit=null;dhPage_=0;dhRender();}
-function dhPage(d){dhPage_+=d;dhEdit=null;dhRender();}
-function dhPageSize(s){dhSize=parseInt(s.value);dhPage_=0;dhEdit=null;dhRender();}
-function dhStartEdit(id){dhEdit=id;dhCloseDismiss();dhRender();setTimeout(function(){var el=document.getElementById('dhef-'+id);if(el)el.focus();},0);}
-function dhCancelEdit(){dhEdit=null;dhRender();}
-function dhSaveEdit(id){var r=dhRecords.find(function(x){return x.id===id;});var input=document.getElementById('dhef-'+id);if(r&&input){var v=input.value.trim();if(v){var p=v.split(/\s+/);r.original_first=r.first;r.original_last=r.last;r.sug_f=p[0];r.sug_l=p.slice(1).join(' ')||r.sug_l;r.first=r.sug_f;r.last=r.sug_l;r.status='corrected';dhEdit=null;dhToast('Name corrected: '+r.first+' '+r.last);dhRender();dhRestoreFocus();}}}
-function dhAccept(id){var r=dhRecords.find(function(x){return x.id===id;});if(r){r.original_first=r.first;r.original_last=r.last;r.first=r.sug_f;r.last=r.sug_l;r.status='corrected';dhEdit=null;dhToast('Name corrected: '+r.first+' '+r.last);dhRender();dhRestoreFocus();}}
-function dhToggleDismiss(id){event.stopPropagation();dhCloseDismiss();var m=document.getElementById('dhd-'+id);var btn=m.previousElementSibling;if(m){var isOpen=m.classList.toggle('open');btn.setAttribute('aria-expanded',isOpen?'true':'false');if(isOpen){var first=m.querySelector('[role="menuitem"]');if(first)first.focus();}}}
-function dhCloseDismiss(){document.querySelectorAll('.dh-dismiss-menu.open').forEach(function(m){m.classList.remove('open');var btn=m.previousElementSibling;if(btn)btn.setAttribute('aria-expanded','false');});}
-document.addEventListener('click',function(e){if(!e.target.closest('.dh-dismiss-wrap')){dhCloseDismiss();}});
-document.addEventListener('keydown',function(e){if(e.key==='Escape'){var open=document.querySelector('.dh-dismiss-menu.open');if(open){var btn=open.previousElementSibling;dhCloseDismiss();if(btn)btn.focus();}}if(e.key==='ArrowDown'||e.key==='ArrowUp'){var menu=document.querySelector('.dh-dismiss-menu.open');if(menu){e.preventDefault();var items=Array.from(menu.querySelectorAll('[role="menuitem"]'));var idx=items.indexOf(document.activeElement);if(e.key==='ArrowDown')idx=idx<items.length-1?idx+1:0;else idx=idx>0?idx-1:items.length-1;items[idx].focus();}}});
-function dhDismiss(id,reason){var r=dhRecords.find(function(x){return x.id===id;});if(r){r.status='dismissed';r.dismiss_reason=reason;dhEdit=null;dhToast(reason==='looks_correct'?'Dismissed — name looks correct':reason==='later'?'Dismissed — will handle later':'Dismissed');dhRender();dhRestoreFocus();}}
-function dhUndo(id){var r=dhRecords.find(function(x){return x.id===id;});if(r){if(r.original_first){r.first=r.original_first;r.last=r.original_last;r.original_first=null;r.original_last=null;}r.status='unreviewed';r.dismiss_reason=null;dhToast('Moved back to review');dhRender();dhRestoreFocus();}}
-function dhRestoreFocus(){setTimeout(function(){var first=document.querySelector('#dh-tbody tr:first-child .dh-btn, #dh-tbody tr:first-child .dh-name-link');if(first)first.focus();},0);}
-var dhToastTimer;function dhToast(msg){var t=document.getElementById('dh-toast');document.getElementById('dh-toast-msg').textContent=msg;t.style.transform='translateX(-50%) translateY(0)';t.style.pointerEvents='auto';clearTimeout(dhToastTimer);dhToastTimer=setTimeout(function(){t.style.transform='translateX(-50%) translateY(80px)';t.style.pointerEvents='none';},2500);}
-// Init queue on first view
-var dhInited=false;
+
+function ddRenderDetail(){
+  var content=document.getElementById('md-detail-content');
+  var empty=document.getElementById('md-detail-empty');
+  if(ddActiveId===null){content.innerHTML='';content.style.display='none';empty.style.display='flex';return;}
+  var d=DD.find(function(x){return x.id===ddActiveId;});
+  if(!d){content.innerHTML='';content.style.display='none';empty.style.display='flex';return;}
+  empty.style.display='none';content.style.display='flex';content.style.flexDirection='column';content.style.flex='1';
+  var bc=d.conf==='high'?'background:#d9e9cd;color:#317005':d.conf==='med'?'background:var(--orange-10);color:#914708':'background:#fff4cc;color:#664f00';
+  var df=function(a,b){return a!==b;};
+
+  var h='<div class="md-detail-hd"><div class="md-detail-title">'+d.nA+' \u2194 '+d.nB+'</div><span class="md-detail-badge" style="'+bc+'">'+d.pct+'% match</span></div>';
+  h+='<div class="md-detail-reason">'+d.reason+'</div>';
+
+  if(ddState[d.id]){
+    h+='<div class="md-detail-actions">';
+    h+=ddState[d.id]==='merged'?'<span style="color:#317005;font-size:14px;font-weight:700;">Merged</span>':'<span style="color:#914708;font-size:14px;font-weight:700;">Ignored</span>';
+    h+='<button class="dh-btn dh-btn--sec" style="padding:10px 20px;font-size:16px;" onclick="ddUndo('+d.id+')">Undo</button></div>';
+    content.innerHTML=h;return;
+  }
+
+  // Diff table
+  h+='<div style="padding:0 24px 0;"><table class="diff-tbl"><thead><tr><th></th><th>'+d.nB+' <i class="fa-solid fa-arrow-right" style="font-size:12px;color:var(--platform-40);margin-left:8px;"></i></th><th>'+d.nA+' <span class="diff-pri-badge">Primary</span></th></tr></thead><tbody>';
+  h+=diffRow('Name',d.nB,d.nA,true);
+  h+=diffRow('Email',d.eB,d.eA,df(d.eA,d.eB));
+  h+=diffRow('Phone',d.pB,d.pA,df(d.pA,d.pB));
+  h+=diffRow('Address',d.aB,d.aA,df(d.aA,d.aB));
+  h+='<tr><td>Total giving</td><td>'+d.gB+'</td><td>'+d.gA+' \u2192 <span style="font-weight:700;color:var(--crm-200);">'+d.tot+'</span> <span class="diff-combined-badge">combined</span></td></tr>';
+  h+='<tr><td>Last gift</td><td>'+d.lB+'</td><td>'+d.lA+'</td></tr>';
+  h+='</tbody></table></div>';
+
+  h+='<div class="md-detail-actions"><button class="dh-btn dh-btn--sec" style="padding:10px 20px;font-size:16px;" onclick="ddIgnore('+d.id+')">Ignore</button><button class="dh-btn dh-btn--pri" style="padding:10px 20px;font-size:16px;" onclick="ddMerge('+d.id+')">Merge records</button></div>';
+  content.innerHTML=h;
+}
+
+function diffRow(label,valB,valA,isDiff){
+  if(!isDiff) return '<tr class="diff-match"><td>'+label+'</td><td class="diff-match-val">'+valA+'</td><td class="diff-match-val">'+valA+'</td></tr>';
+  return '<tr class="diff-changed"><td>'+label+'</td><td><span class="diff-disc">'+valB+'</span></td><td><span class="diff-kept">'+valA+'</span></td></tr>';
+}
+
+var ddToastTimer,ddLastActionId=null;
+function ddToast(msg,actionId){ddLastActionId=actionId!==undefined?actionId:null;var t=document.getElementById('dd-toast');document.getElementById('dd-toast-msg').textContent=msg;var undo=document.getElementById('dd-toast-undo');undo.style.display=ddLastActionId!==null?'inline':'none';t.style.transform='translateX(-50%) translateY(0)';t.style.pointerEvents='auto';clearTimeout(ddToastTimer);ddToastTimer=setTimeout(function(){t.style.transform='translateX(-50%) translateY(80px)';t.style.pointerEvents='none';},4000);}
+function ddToastUndo(){if(ddLastActionId!==null){var id=ddLastActionId;ddLastActionId=null;ddUndo(id);}}
+function ddHideToast(){var t=document.getElementById('dd-toast');t.style.transform='translateX(-50%) translateY(80px)';t.style.pointerEvents='none';}
+
+// Init on first view
+var ddInited=false;
 var origShowView=showView;
-showView=function(name){document.querySelectorAll('.sub-item').forEach(function(s){s.classList.remove('active');});origShowView(name);if(name==='datahealth'&&!dhInited){dhInited=true;dhRender();}
+showView=function(name){document.querySelectorAll('.sub-item').forEach(function(s){s.classList.remove('active');});origShowView(name);if(name==='datahealth'&&!ddInited){ddInited=true;var items=ddFiltered();if(items.length>0)ddActiveId=items[0].id;ddRender();}
 if(name==='datahealth'){document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active');});var dtNav=document.querySelector('[onclick*="sub-data"]');if(dtNav){dtNav.classList.add('active');dtNav.setAttribute('aria-expanded','true');document.getElementById('sub-data').classList.add('open');}var dhItems=document.querySelectorAll('#sub-data .sub-item');dhItems.forEach(function(s){if(s.textContent.trim().replace(/\s+/g,' ').indexOf('Data Health')!==-1){s.classList.add('active');}});}};</script>
 </body>
 </html>
