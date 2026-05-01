@@ -1140,12 +1140,12 @@ table.atbl tr:last-child td{border-bottom:none;}
     <!-- ═══ DATA HEALTH VIEW — MASTER-DETAIL ═══ -->
     <div class="view" id="view-datahealth">
       <div class="page-hd">
-        <div class="page-hd-row">
+        <div class="page-hd-row" style="align-items:flex-end;">
           <div>
             <h1 class="page-title">Data health</h1>
             <p class="page-sub">Review and resolve duplicate constituent records in your database.</p>
           </div>
-          <div style="flex-shrink:0;font-size:14px;color:var(--platform-60);padding-top:8px;">Last scanned: April 30, 2026 at 10:14 AM</div>
+          <div style="flex-shrink:0;font-size:14px;color:var(--platform-60);">Last scanned: April 30, 2026 at 10:14 AM</div>
         </div>
       </div>
 
@@ -2972,7 +2972,7 @@ function ddRenderList(){
       var lbl=d.conf==='high'?'High confidence':d.conf==='med'?'Medium confidence':'Low confidence';
       var color=d.conf==='high'?'var(--crm-100)':d.conf==='med'?'var(--orange-100)':'var(--platform-40)';
       var tierCount=items.filter(function(x){return x.conf===d.conf;}).length;
-      list.innerHTML+='<div style="padding:16px;background:var(--white);font-size:14px;font-weight:700;color:var(--platform-80);display:flex;align-items:center;gap:6px;border-bottom:1px solid var(--platform-10);"><span style="width:8px;height:8px;border-radius:50%;background:'+color+';flex-shrink:0;"></span>'+lbl+' <span style="font-weight:400;color:var(--platform-80);">\u00b7 '+tierCount+'</span></div>';
+      list.innerHTML+='<div style="padding:16px;background:var(--white);font-size:14px;font-weight:700;color:var(--platform-80);display:flex;align-items:center;gap:6px;border-bottom:1px solid var(--platform-10);position:sticky;top:0;z-index:2;"><span style="width:8px;height:8px;border-radius:50%;background:'+color+';flex-shrink:0;"></span>'+lbl+' <span style="font-weight:400;color:var(--platform-80);">\u00b7 '+tierCount+'</span></div>';
     }
 
     var isActive=ddActiveId===d.id;
