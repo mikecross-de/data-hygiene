@@ -2957,6 +2957,8 @@ function ddUpdateCounts(){}
 function ddRenderList(){
   var items=ddFiltered();
   var list=document.getElementById('md-master-list');
+  var master=document.getElementById('md-master');
+  master.style.display='flex';
   list.innerHTML='';
 
   if(items.length===0){
@@ -2964,25 +2966,20 @@ function ddRenderList(){
     var ignored=DD.filter(function(d){return ddState[d.id]==='ignored';}).length;
     var totalResolved=merged+ignored;
     if(totalResolved>0){
-      // Completion state
+      // Completion state — hide master, full width detail
       var totalGiving=0;
       DD.forEach(function(d){if(ddState[d.id]==='merged'){var n=parseInt(d.tot.replace(/[\$,]/g,''));if(!isNaN(n))totalGiving+=n;}});
       var givingStr='$'+totalGiving.toLocaleString();
-      list.innerHTML='<div style="padding:40px 20px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:12px;">' +
-        '<div style="width:48px;height:48px;border-radius:50%;background:var(--crm-10);display:flex;align-items:center;justify-content:center;"><i class="fa-solid fa-check" style="font-size:20px;color:var(--crm-100);"></i></div>' +
-        '<div style="font-size:18px;font-weight:700;color:var(--platform-100);">All caught up</div>' +
-        '<div style="font-size:14px;color:var(--platform-60);line-height:20px;">'+merged+' merged \u00b7 '+ignored+' ignored</div>' +
-        (merged>0?'<div style="font-size:14px;color:var(--crm-200);font-weight:600;">'+givingStr+' in giving consolidated</div>':'') +
-        '</div>';
-      // Also update detail panel
+      document.getElementById('md-master').style.display='none';
+      list.innerHTML='';
       var content=document.getElementById('md-detail-content');
       var empty=document.getElementById('md-detail-empty');
       content.innerHTML='';content.style.display='none';
       empty.innerHTML='<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:12px;padding:24px;text-align:center;">' +
-        '<div style="width:64px;height:64px;border-radius:50%;background:var(--crm-10);display:flex;align-items:center;justify-content:center;"><i class="fa-solid fa-sparkles" style="font-size:28px;color:var(--crm-100);"></i></div>' +
-        '<div style="font-size:20px;font-weight:700;color:var(--platform-100);">Database cleanup complete</div>' +
-        '<div style="font-size:14px;color:var(--platform-60);line-height:20px;max-width:320px;">You\u2019ve reviewed all duplicate constituent records. Your database is cleaner and your donor records are more accurate.</div>' +
-        (merged>0?'<div style="margin-top:8px;font-size:24px;font-weight:700;color:var(--crm-200);">'+givingStr+'</div><div style="font-size:14px;color:var(--platform-60);">in giving consolidated across '+merged+' merges</div>':'') +
+        '<div style="width:64px;height:64px;border-radius:50%;background:var(--crm-10);display:flex;align-items:center;justify-content:center;"><i class="fa-solid fa-check" style="font-size:28px;color:var(--crm-100);"></i></div>' +
+        '<div style="font-size:20px;font-weight:700;color:var(--platform-100);">All duplicates resolved</div>' +
+        '<div style="font-size:14px;color:var(--platform-80);">'+merged+' merged \u00b7 '+ignored+' ignored</div>' +
+        (merged>0?'<div style="margin-top:8px;font-size:24px;font-weight:700;color:var(--crm-200);">'+givingStr+'</div><div style="font-size:14px;color:var(--platform-80);">in giving consolidated across '+merged+' merges</div>':'') +
         '</div>';
       empty.style.display='flex';
       ddActiveId=null;
