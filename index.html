@@ -52,7 +52,7 @@
 .md-item-badge{font-size:12px;font-weight:700;padding:2px 8px;border-radius:4px;flex-shrink:0;white-space:nowrap;}
 .md-item-badge-high{background:#d9e9cd;color:#317005;}
 .md-item-badge-med{background:var(--orange-10);color:#914708;}
-.md-item-badge-low{background:#fff4cc;color:#664f00;}
+.md-item-badge-low{background:var(--platform-10);color:var(--platform-80);}
 .md-item-status{font-size:12px;font-weight:700;flex-shrink:0;}
 
 /* ── Detail panel ── */
@@ -2960,7 +2960,35 @@ function ddRenderList(){
   list.innerHTML='';
 
   if(items.length===0){
-    list.innerHTML='<div style="padding:32px 16px;text-align:center;color:var(--platform-60);font-size:14px;">'+(ddStatus==='resolved'?'No resolved items yet':'All caught up — no duplicates to review')+'</div>';
+    var merged=DD.filter(function(d){return ddState[d.id]==='merged';}).length;
+    var ignored=DD.filter(function(d){return ddState[d.id]==='ignored';}).length;
+    var totalResolved=merged+ignored;
+    if(totalResolved>0){
+      // Completion state
+      var totalGiving=0;
+      DD.forEach(function(d){if(ddState[d.id]==='merged'){var n=parseInt(d.tot.replace(/[\$,]/g,''));if(!isNaN(n))totalGiving+=n;}});
+      var givingStr='$'+totalGiving.toLocaleString();
+      list.innerHTML='<div style="padding:40px 20px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:12px;">' +
+        '<div style="width:48px;height:48px;border-radius:50%;background:var(--crm-10);display:flex;align-items:center;justify-content:center;"><i class="fa-solid fa-check" style="font-size:20px;color:var(--crm-100);"></i></div>' +
+        '<div style="font-size:18px;font-weight:700;color:var(--platform-100);">All caught up</div>' +
+        '<div style="font-size:14px;color:var(--platform-60);line-height:20px;">'+merged+' merged \u00b7 '+ignored+' ignored</div>' +
+        (merged>0?'<div style="font-size:14px;color:var(--crm-200);font-weight:600;">'+givingStr+' in giving consolidated</div>':'') +
+        '</div>';
+      // Also update detail panel
+      var content=document.getElementById('md-detail-content');
+      var empty=document.getElementById('md-detail-empty');
+      content.innerHTML='';content.style.display='none';
+      empty.innerHTML='<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:12px;padding:24px;text-align:center;">' +
+        '<div style="width:64px;height:64px;border-radius:50%;background:var(--crm-10);display:flex;align-items:center;justify-content:center;"><i class="fa-solid fa-sparkles" style="font-size:28px;color:var(--crm-100);"></i></div>' +
+        '<div style="font-size:20px;font-weight:700;color:var(--platform-100);">Database cleanup complete</div>' +
+        '<div style="font-size:14px;color:var(--platform-60);line-height:20px;max-width:320px;">You\u2019ve reviewed all duplicate constituent records. Your database is cleaner and your donor records are more accurate.</div>' +
+        (merged>0?'<div style="margin-top:8px;font-size:24px;font-weight:700;color:var(--crm-200);">'+givingStr+'</div><div style="font-size:14px;color:var(--platform-60);">in giving consolidated across '+merged+' merges</div>':'') +
+        '</div>';
+      empty.style.display='flex';
+      ddActiveId=null;
+    } else {
+      list.innerHTML='<div style="padding:32px 16px;text-align:center;color:var(--platform-60);font-size:14px;">No duplicates to review</div>';
+    }
     return;
   }
 
@@ -3002,7 +3030,7 @@ function ddRenderDetail(){
   var d=DD.find(function(x){return x.id===ddActiveId;});
   if(!d){content.innerHTML='';content.style.display='none';empty.style.display='flex';return;}
   empty.style.display='none';content.style.display='flex';content.style.flexDirection='column';content.style.flex='1';
-  var bc=d.conf==='high'?'background:#d9e9cd;color:#317005':d.conf==='med'?'background:var(--orange-10);color:#914708':'background:#fff4cc;color:#664f00';
+  var bc=d.conf==='high'?'background:#d9e9cd;color:#317005':d.conf==='med'?'background:var(--orange-10);color:#914708':'background:var(--platform-10);color:var(--platform-80)';
   var df=function(a,b){return a!==b;};
 
   var h='<div class="md-detail-hd"><div class="md-detail-title">'+d.nA+' \u2194 '+d.nB+'</div><span class="md-detail-badge" style="'+bc+'">'+d.pct+'% match</span></div>';
