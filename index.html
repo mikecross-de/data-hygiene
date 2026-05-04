@@ -27,6 +27,10 @@
 .penny-review-btn{display:inline-flex;align-items:center;gap:8px;background:var(--penny-100);color:var(--white);border-radius:20px;padding:9px 22px;font-size:16px;font-weight:700;cursor:pointer;border:none;font-family:var(--font);}
 .penny-review-btn:hover{background:var(--penny-200);}
 
+/* ── Penny tile CTA ── */
+.penny-tile-btn{margin-top:12px;padding:6px 16px;font-size:14px;font-weight:700;font-family:var(--font);background:var(--white);color:var(--penny-100);border:2px solid var(--penny-100);border-radius:4px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:all 0.15s;}
+.penny-tile-btn:hover{background:var(--penny-100);color:var(--white);}
+
 /* ── Dedup category tabs ── */
 .dh-cat-tabs{display:flex;align-items:stretch;border-bottom:1px solid var(--platform-20);margin:0 24px;background:var(--white);border-radius:4px 4px 0 0;}
 .dh-cat-tab-btn{display:flex;align-items:center;justify-content:center;height:48px;padding:0 32px;font-family:var(--font);font-size:16px;font-weight:400;line-height:21px;color:var(--platform-80);background:transparent;border:none;border-bottom:2px solid transparent;cursor:pointer;white-space:nowrap;margin-bottom:-1px;gap:8px;}
@@ -70,6 +74,73 @@
 .md-detail-fv{color:var(--platform-100);font-weight:500;text-align:right;}
 .md-detail-fv.diff{color:#C60623;font-weight:600;}
 .md-detail-actions{padding:16px 24px 24px;display:flex;align-items:center;gap:8px;justify-content:flex-end;margin-top:auto;}
+
+/* ── Penny FAB ── */
+.penny-fab{position:fixed;bottom:24px;right:24px;width:52px;height:52px;border-radius:50%;background:var(--penny-100);color:var(--white);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 4px 12px rgba(103,94,249,0.35);z-index:100;transition:background 0.15s;}
+.penny-fab:hover{background:var(--penny-200);}
+.penny-fab-badge{position:absolute;top:-2px;right:-2px;background:#F93A57;color:var(--white);font-size:11px;font-weight:700;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid var(--white);}
+
+/* ── Penny drawer ── */
+.penny-drawer-hd{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--platform-10);flex-shrink:0;}
+.penny-drawer-hd-left{display:flex;align-items:center;gap:8px;}
+.penny-drawer-title{font-size:16px;font-weight:700;color:var(--platform-100);}
+.penny-drawer-close{background:none;border:none;cursor:pointer;color:var(--platform-60);font-size:16px;padding:4px;border-radius:4px;}
+.penny-drawer-close:hover{color:var(--platform-100);}
+.penny-drawer-body{flex:1;overflow-y:auto;padding:0;}
+.penny-drawer-footer{padding:12px 20px;border-top:1px solid var(--platform-10);flex-shrink:0;}
+.penny-msg{padding:16px 20px;border-bottom:1px solid var(--platform-10);}
+.penny-msg-hd{display:flex;align-items:center;gap:6px;margin-bottom:8px;}
+.penny-msg-name{font-size:13px;font-weight:700;color:var(--penny-200);}
+.penny-msg-text{font-size:14px;color:var(--platform-100);line-height:21px;}
+.penny-msg-text strong{font-weight:700;}
+.pd-card{padding:16px 20px;border-bottom:1px solid var(--platform-10);transition:background 0.1s;}
+.pd-card:hover{background:#F9F9F9;}
+.pd-card.pd-resolved{opacity:0.5;}
+.pd-card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;}
+.pd-card-names{font-size:14px;font-weight:700;color:var(--platform-100);}
+.pd-card-badge{font-size:12px;font-weight:700;padding:2px 8px;border-radius:4px;}
+.pd-card-badge-high{background:#d9e9cd;color:#317005;}
+.pd-card-reason{font-size:13px;color:var(--platform-80);line-height:18px;margin-bottom:8px;}
+.pd-card-diff{font-size:13px;color:var(--platform-60);margin-bottom:10px;line-height:18px;}
+.pd-card-diff span{color:var(--platform-100);font-weight:500;}
+.pd-card-actions{display:flex;gap:8px;}
+.pd-btn{font-family:var(--font);font-size:13px;font-weight:700;padding:6px 14px;border-radius:4px;cursor:pointer;border:none;display:inline-flex;align-items:center;gap:6px;}
+.pd-btn-pri{background:var(--penny-100);color:var(--white);}
+.pd-btn-pri:hover{background:var(--penny-200);}
+.pd-btn-sec{background:var(--white);color:var(--platform-100);border:1px solid var(--platform-100);}
+.pd-btn-sec:hover{background:var(--platform-5);}
+.pd-undo{font-size:13px;color:var(--crm-100);font-weight:700;cursor:pointer;text-decoration:underline;background:none;border:none;font-family:var(--font);}
+.pd-view-all{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;background:var(--white);color:var(--penny-100);border:1px solid var(--penny-100);border-radius:4px;padding:10px;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--font);transition:background 0.1s;}
+.pd-view-all:hover{background:var(--penny-5);}
+
+/* ── Penny drawer dedup cards ── */
+.pdd-card{padding:6px 0px 24px;border-bottom:1px solid var(--platform-10);}
+.pdd-card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;}
+.pdd-card-names{font-size:14px;font-weight:700;color:var(--platform-100);}
+.pdd-badge{font-size:12px;font-weight:700;padding:2px 8px;border-radius:4px;background:#d9e9cd;color:#317005;}
+.pdd-reason{font-size:13px;color:var(--platform-80);line-height:18px;margin-bottom:8px;}
+.pdd-diff{font-size:13px;color:var(--platform-60);margin-bottom:10px;line-height:22px;}
+.pdd-diff span{color:var(--platform-100);font-weight:500;}
+.pdd-actions{display:flex;gap:8px;}
+.pdd-btn{font-family:var(--font);font-size:14px;font-weight:700;padding:8px 16px;border-radius:4px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:all 0.15s;}
+.pdd-btn-pri{background:var(--penny-100);color:var(--white);border:none;}
+.pdd-btn-pri:hover{background:var(--penny-200);}
+.pdd-btn-sec{background:var(--white);color:var(--platform-100);border:1px solid var(--platform-100);}
+.pdd-btn-sec:hover{background:var(--platform-5);}
+
+/* ── Penny home screen (Option 1 dynamic prompts) ── */
+.pd-home{flex:1;display:flex;flex-direction:column;overflow-y:auto;padding:0 24px;}
+.pd-home-inner{margin:auto 0;flex-shrink:0;padding:24px 0;}
+.pd-greeting{text-align:center;margin-bottom:24px;}
+.pd-greeting h2{font-size:24px;font-weight:500;line-height:29px;color:var(--platform-100);margin-bottom:12px;}
+.pd-greeting p{font-size:20px;font-weight:400;line-height:28px;color:var(--platform-100);}
+.pd-block-cards{display:flex;flex-direction:column;gap:6px;}
+.pd-block-card{display:flex;align-items:flex-start;gap:12px;padding:16px 16px 16px 12px;background:#F9F9F9;border-radius:4px;cursor:pointer;transition:background 0.15s;border:none;font-family:var(--font);text-align:left;width:100%;}
+.pd-block-card:hover{background:var(--platform-10);}
+.pd-block-icon{width:36px;height:36px;display:flex;align-items:center;justify-content:center;border-radius:18px;flex-shrink:0;font-size:16px;color:var(--penny-100);}
+.pd-block-text{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;padding-top:2px;}
+.pd-block-title{font-size:14px;line-height:18px;font-weight:500;color:var(--platform-100);}
+.pd-block-sub{font-size:13px;line-height:17px;font-weight:400;color:var(--platform-80);}
 
 /* ── Diff table ── */
 .diff-tbl{width:100%;border-collapse:collapse;background:var(--white);border:1px solid var(--platform-10);border-radius:6px;overflow:hidden;}
@@ -262,6 +333,7 @@ button{font-family:var(--font);cursor:pointer;}
 .nav-avatar-wrap:hover{background:rgba(255,255,255,0.12);}
 .nav-avatar{width:22px;height:22px;border-radius:50%;background:var(--white);display:flex;align-items:center;justify-content:center;color:var(--platform-100);font-size:8px;font-weight:700;}
 .penny-ic{color:var(--penny-60);}
+.penny-ic:hover,.penny-ic.active{background:var(--penny-100);color:var(--white);}
 
 /* APP BODY */
 .app-body{display:flex;flex:1;overflow:hidden;}
@@ -638,15 +710,16 @@ table.atbl tr:last-child td{border-bottom:none;}
 .approve-note strong{color:var(--platform-100);}
 
 /* PENNY DRAWER */
-.penny-drawer{position:fixed;bottom:20px;right:20px;width:480px;background:var(--white);border-radius:6px;border:1px solid var(--platform-10);box-shadow:0px 8px 28px rgba(0,0,0,0.16);z-index:650;display:none;flex-direction:column;overflow:hidden;height:calc(100vh - 96px);}
+.penny-drawer{position:fixed;bottom:16px;right:16px;top:calc(var(--topnav-h) + 16px);width:480px;background:var(--white);border-radius:6px;border:1px solid var(--platform-10);box-shadow:0px 8px 28px rgba(0,0,0,0.16);z-index:650;display:none;flex-direction:column;overflow:hidden;}
 .penny-drawer.open{display:flex;}
-.pd-hd{background:var(--white);padding:20px 24px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.pd-hd{background:var(--white);padding:20px 24px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;border-bottom:1px solid transparent;transition:border-color 0.15s;}
+.pd-hd.scrolled{border-bottom-color:var(--platform-10);}
 .pd-title{font-size:18px;font-weight:500;color:var(--platform-100);display:flex;align-items:center;gap:10px;}
 .pd-title-icon{color:var(--penny-100);font-size:18px;}
 .pd-hd-actions{display:flex;align-items:center;gap:4px;}
 .pd-icon-btn{background:transparent;border:none;color:var(--platform-100);font-size:16px;cursor:pointer;width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:16px;}
 .pd-icon-btn:hover{background:var(--platform-5);}
-.pd-msgs{flex:1;overflow-y:auto;padding:24px 24px 24px;display:flex;flex-direction:column;gap:24px;}
+.pd-msgs{flex:1;overflow-y:auto;padding:6px 24px 24px;display:flex;flex-direction:column;gap:12px;}
 .pm{display:flex;flex-direction:column;align-items:flex-start;gap:0;}
 .pm.user{align-items:flex-end;}
 .pm-bub{background:var(--platform-5);border-radius:6px;padding:12px 16px;font-size:16px;line-height:21px;color:var(--platform-100);}
@@ -661,9 +734,10 @@ table.atbl tr:last-child td{border-bottom:none;}
 .pd-input::placeholder{color:var(--platform-60);}
 .pd-disclaimer{font-size:12px;color:var(--platform-60);text-align:center;letter-spacing:0.25px;line-height:18px;}
 .pd-suggestions{display:flex;flex-direction:column;gap:6px;margin-top:12px;width:100%;}
-.pd-suggestion{background:#f9f9f9;border:none;color:var(--platform-100);font-size:14px;font-weight:400;padding:12px 16px 12px 12px;border-radius:4px;cursor:pointer;font-family:var(--font);display:flex;align-items:center;gap:8px;width:100%;box-sizing:border-box;text-align:left;transition:background 0.12s;}
-.pd-suggestion:hover{background:var(--platform-5);}
-.pd-suggestion-icon{width:36px;height:36px;border-radius:18px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--penny-100);font-size:16px;}
+.pd-suggestions-label{font-size:14px;font-weight:600;color:var(--platform-100);margin-bottom:4px;}
+.pd-suggestion{background:#f9f9f9;border:none;color:var(--platform-100);font-size:14px;font-weight:400;padding:12px 16px 12px 12px;border-radius:4px;cursor:pointer;font-family:var(--font);display:flex;align-items:center;gap:8px;width:100%;box-sizing:border-box;text-align:left;transition:background 0.12s;line-height:18px;}
+.pd-suggestion:hover{background:var(--platform-10);}
+.pd-suggestion-icon{width:36px;height:36px;border-radius:18px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 </style>
 </head>
 <body>
@@ -815,19 +889,23 @@ table.atbl tr:last-child td{border-bottom:none;}
       <!-- Tile grid -->
       <div class="tile-grid">
 
-        <!-- ── ROW 1 RIGHT: Data Health ── -->
+        <!-- ── ROW 1 RIGHT: Duplicate Constituents ── -->
         <div class="tile" style="grid-column:3;grid-row:1;height:424px;display:flex;flex-direction:column;gap:16px;">
           <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">
-            <div style="flex:1;font-size:20px;font-weight:700;line-height:24px;">Data Health</div>
-            <span class="tile-badge">Data Health Agent</span>
+            <div style="flex:1;font-size:20px;font-weight:700;line-height:24px;">Duplicate Constituents</div>
+            <span class="tile-badge">Data Health</span>
           </div>
           <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;border-bottom:1px solid var(--platform-20);padding-bottom:16px;gap:6px;">
             <div style="font-size:56px;font-weight:700;line-height:1;color:var(--platform-100);">18</div>
             <div style="font-size:14px;color:var(--platform-100);">Potential Duplicate Constituents</div>
-            <button class="dh-btn dh-btn--ghost" onclick="showView('datahealth')" style="margin-top:12px;font-size:16px;">Review duplicates</button>
+            <div style="font-size:12px;color:var(--platform-80);"><strong>5</strong> high confidence and ready to merge</div>
+            <button class="penny-tile-btn" onclick="openPennyDedup()">
+              <svg width="14" height="14" viewBox="0 0 20 21" fill="none"><path d="M17.045 6.293l.79-1.75 1.75-.79c.39-.18.39-.73 0-.91l-1.75-.79-.79-1.75c-.18-.39-.73-.39-.91 0l-.79 1.75-1.76.79c-.39.18-.39.73 0 .91l1.75.79.79 1.75c.18.39.74.39.91 0zM9.085 7.793l-1.59-3.5c-.35-.78-1.47-.78-1.82 0l-1.59 3.5-3.5 1.59c-.78.36-.78 1.47 0 1.82l3.5 1.59 1.59 3.5c.36.78 1.47.78 1.82 0l1.59-3.5 3.5-1.59c.78-.36.78-1.47 0-1.82l-3.5-1.59zM16.125 14.293l-.79 1.75-1.75.79c-.39.18-.39.73 0 .91l1.75.79.79 1.75c.18.39.73.39.91 0l.79-1.75 1.75-.79c.39-.18.39-.73 0-.91l-1.75-.79-.79-1.75c-.18-.39-.73-.39-.91 0z" fill="currentColor"/></svg>
+              Review with Penny
+            </button>
           </div>
           <div style="display:flex;gap:16px;flex-shrink:0;">
-            <div class="accent-stat"><div class="accent-bar" style="background:var(--crm-100)"></div><div><div style="font-size:29px;font-weight:700;line-height:35px;">5</div><div style="font-size:12px;color:var(--platform-100);">High Confidence</div></div></div>
+            <div class="accent-stat"><div class="accent-bar" style="background:var(--crm-100)"></div><div><div style="font-size:29px;font-weight:700;line-height:35px;">5</div><div style="font-size:12px;color:var(--platform-100);">High</div></div></div>
             <div class="accent-stat"><div class="accent-bar" style="background:var(--orange-100)"></div><div><div style="font-size:29px;font-weight:700;line-height:35px;">7</div><div style="font-size:12px;color:var(--platform-100);">Medium</div></div></div>
             <div class="accent-stat"><div class="accent-bar" style="background:var(--platform-40)"></div><div><div style="font-size:29px;font-weight:700;line-height:35px;">6</div><div style="font-size:12px;color:var(--platform-100);">Low</div></div></div>
           </div>
@@ -2298,18 +2376,40 @@ Director of Development · Hope Valley Foundation</textarea>
       <button class="pd-icon-btn" onclick="togglePenny()" aria-label="Close"><i class="fa-regular fa-xmark"></i></button>
     </div>
   </div>
-  <div class="pd-msgs" id="pdMsgs">
-    <div class="pm user">
-      <div class="pm-bub">Set up a retention campaign for my at-risk donors</div>
-    </div>
-    <div class="pm penny">
-      <div class="pm-bub">I'll create the campaign, build personalized donation forms with optimized ask amounts, segment the audience, and draft the email for your review.<br><br>Sarah Mitchell is your highest priority at <strong>87% churn risk</strong> — optimal ask <strong>$50/month</strong>.<br><br>Building now — you'll approve before anything sends.</div>
-      <div class="pd-suggestions">
-        <button class="pd-suggestion" onclick="goToCampaign('workcenter');togglePenny()">Review campaign</button>
-        <button class="pd-suggestion">Tell me about Sarah Mitchell</button>
-        <button class="pd-suggestion">How did last month perform?</button>
+  <!-- Home screen (Option 1 dynamic prompts) -->
+  <div class="pd-home" id="pdHome">
+    <div class="pd-home-inner">
+      <div class="pd-greeting">
+        <h2>Hi Jessica!</h2>
+        <p>Here's what I found in your CRM today.</p>
+      </div>
+      <div class="pd-block-cards">
+        <button class="pd-block-card" onclick="pdStartDedupFlow()">
+          <div class="pd-block-icon"><i class="fa-regular fa-clone"></i></div>
+          <div class="pd-block-text">
+            <span class="pd-block-title">You have 5 high-confidence duplicate records</span>
+            <span class="pd-block-sub">18 total found — Start with the high-confidence matches</span>
+          </div>
+        </button>
+        <button class="pd-block-card">
+          <div class="pd-block-icon"><i class="fa-regular fa-clock-rotate-left"></i></div>
+          <div class="pd-block-text">
+            <span class="pd-block-title">3 overdue follow-ups need attention</span>
+            <span class="pd-block-sub">Oldest is Margaret Chen — 12 days ago</span>
+          </div>
+        </button>
+        <button class="pd-block-card">
+          <div class="pd-block-icon"><i class="fa-regular fa-envelope-open-text"></i></div>
+          <div class="pd-block-text">
+            <span class="pd-block-title">5 new gifts need thank-you letters</span>
+            <span class="pd-block-sub">$500 from Sarah Kim + 4 others this week</span>
+          </div>
+        </button>
       </div>
     </div>
+  </div>
+  <!-- Conversation view (hidden by default) -->
+  <div class="pd-msgs" id="pdMsgs" style="display:none;">
   </div>
   <div class="pd-footer">
     <div class="pd-divider"></div>
@@ -2775,13 +2875,19 @@ function toggleMC(id) {
 
 function togglePenny() {
   var drawer = document.getElementById('pennyDrawer');
+  var trigger = document.getElementById('pennyTrigger');
   var isOpen = drawer.classList.contains('open');
   if (isOpen) {
     drawer.style.display = 'none';
     drawer.classList.remove('open');
+    trigger.classList.remove('active');
   } else {
+    // Reset to home screen
+    document.getElementById('pdHome').style.display='flex';
+    document.getElementById('pdMsgs').style.display='none';
     drawer.style.display = 'flex';
     drawer.classList.add('open');
+    trigger.classList.add('active');
   }
 }
 
@@ -3068,6 +3174,168 @@ function ddHideToast(){var t=document.getElementById('dd-toast');t.style.transfo
 var ddInited=false;
 var origShowView=showView;
 showView=function(name){document.querySelectorAll('.sub-item').forEach(function(s){s.classList.remove('active');});origShowView(name);if(name==='datahealth'&&!ddInited){ddInited=true;var items=ddFiltered();if(items.length>0)ddActiveId=items[0].id;ddRender();}
-if(name==='datahealth'){document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active');});var dtNav=document.querySelector('[onclick*="sub-data"]');if(dtNav){dtNav.classList.add('active');dtNav.setAttribute('aria-expanded','true');document.getElementById('sub-data').classList.add('open');}var dhItems=document.querySelectorAll('#sub-data .sub-item');dhItems.forEach(function(s){if(s.textContent.trim().replace(/\s+/g,' ').indexOf('Data Health')!==-1){s.classList.add('active');}});}};</script>
+if(name==='datahealth'){document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active');});var dtNav=document.querySelector('[onclick*="sub-data"]');if(dtNav){dtNav.classList.add('active');dtNav.setAttribute('aria-expanded','true');document.getElementById('sub-data').classList.add('open');}var dhItems=document.querySelectorAll('#sub-data .sub-item');dhItems.forEach(function(s){if(s.textContent.trim().replace(/\s+/g,' ').indexOf('Data Health')!==-1){s.classList.add('active');}});}};
+
+// ═══════════════════════════════════
+// PENNY DEDUP INTEGRATION
+// ═══════════════════════════════════
+var pdDedupState={};
+var pdSparkle='<span class="pd-suggestion-icon"><svg width="20" height="20" viewBox="0 0 20 21" fill="none"><path d="M17.045 6.293l.79-1.75 1.75-.79c.39-.18.39-.73 0-.91l-1.75-.79-.79-1.75c-.18-.39-.73-.39-.91 0l-.79 1.75-1.76.79c-.39.18-.39.73 0 .91l1.75.79.79 1.75c.18.39.74.39.91 0zM9.085 7.793l-1.59-3.5c-.35-.78-1.47-.78-1.82 0l-1.59 3.5-3.5 1.59c-.78.36-.78 1.47 0 1.82l3.5 1.59 1.59 3.5c.36.78 1.47.78 1.82 0l1.59-3.5 3.5-1.59c.78-.36.78-1.47 0-1.82l-3.5-1.59zM16.125 14.293l-.79 1.75-1.75.79c-.39.18-.39.73 0 .91l1.75.79.79 1.75c.18.39.73.39.91 0l.79-1.75 1.75-.79c.39-.18.39-.73 0-.91l-1.75-.79-.79-1.75c-.18-.39-.73-.39-.91 0z" fill="#675EF9"/></svg></span>';
+function pdSuggestion(label,onclick){
+  var oc=onclick?' onclick="'+onclick+'"':'';
+  return '<button class="pd-suggestion"'+oc+'>'+pdSparkle+label+'</button>';
+} // drawer-level merge/ignore tracking
+
+function pdStartDedupFlow(){
+  document.getElementById('pdHome').style.display='none';
+  document.getElementById('pdMsgs').style.display='flex';
+  showPennyDedupCards();
+}
+
+function openPennyDedup(){
+  var drawer=document.getElementById('pennyDrawer');
+  var trigger=document.getElementById('pennyTrigger');
+  drawer.style.display='flex';
+  drawer.classList.add('open');
+  trigger.classList.add('active');
+  pdStartDedupFlow();
+}
+
+function showPennyDedupCards(){
+  var msgs=document.getElementById('pdMsgs');
+  var highPairs=DD.filter(function(d){return d.conf==='high';});
+  var active=highPairs.filter(function(d){return !ddState[d.id]&&!pdDedupState[d.id];});
+
+  var h='<div class="pm user"><div class="pm-bub">Review my 5 high-confidence duplicates</div></div>';
+
+  if(active.length>0){
+    h+='<div class="pm penny"><div class="pm-bub">I found <strong>'+active.length+' high-confidence duplicates</strong> in your database that I\u2019d recommend merging. These are records with matching phone numbers, addresses, or clear nickname variants.</div></div>';
+    h+='<div class="pdd-actions" style="gap:12px;"><button class="pdd-btn pdd-btn-pri" onclick="pddMergeAll()">Merge all '+active.length+'</button><button class="pdd-btn pdd-btn-sec" onclick="pddShowReview()">Review individually</button></div>';
+  } else {
+    var merged=highPairs.filter(function(d){return (ddState[d.id]||pdDedupState[d.id])==='merged';}).length;
+    var ignored=highPairs.filter(function(d){return (ddState[d.id]||pdDedupState[d.id])==='ignored';}).length;
+    var remaining=DD.filter(function(d){return !ddState[d.id];}).length;
+    h+='<div class="pm penny"><div class="pm-bub">Done! '+merged+' record'+(merged!==1?'s':'')+' merged'+(ignored>0?', '+ignored+' ignored':'')+'.';
+    if(remaining>0) h+=' There are still <strong>'+remaining+' more pairs</strong> to review in Data Health.';
+    h+='</div><div class="pd-suggestions"><div class="pd-suggestions-label">Suggestions</div>';
+    if(remaining>0) h+=pdSuggestion('Review the remaining '+remaining+' duplicates in Data Health',"showView('datahealth');togglePenny()");
+    h+=pdSuggestion('Show me constituents with missing contact info','');
+    h+=pdSuggestion('How many duplicate records have been merged this year?','');
+    h+='</div></div>';
+  }
+
+  msgs.innerHTML=h;
+  msgs.scrollTop=0;
+}
+
+function pddShowReview(){
+  var msgs=document.getElementById('pdMsgs');
+  var highPairs=DD.filter(function(d){return d.conf==='high';});
+  var active=highPairs.filter(function(d){return !ddState[d.id]&&!pdDedupState[d.id];});
+
+  // All done — show completion
+  if(active.length===0){
+    var merged=highPairs.filter(function(d){return (ddState[d.id]||pdDedupState[d.id])==='merged';}).length;
+    var ignored=highPairs.filter(function(d){return (ddState[d.id]||pdDedupState[d.id])==='ignored';}).length;
+    var remaining=DD.filter(function(d){return !ddState[d.id];}).length;
+    var h='<div class="pm user"><div class="pm-bub">Review my 5 high-confidence duplicates</div></div>';
+    h+='<div class="pm penny"><div class="pm-bub">Done! '+merged+' record'+(merged!==1?'s':'')+' merged'+(ignored>0?', '+ignored+' ignored':'')+'.';
+    if(remaining>0) h+=' There are still <strong>'+remaining+' more pairs</strong> to review in Data Health.';
+    h+='</div><div class="pd-suggestions"><div class="pd-suggestions-label">Suggestions</div>';
+    if(remaining>0) h+=pdSuggestion('Review the remaining '+remaining+' duplicates in Data Health',"showView('datahealth');togglePenny()");
+    h+=pdSuggestion('Show me constituents with missing contact info','');
+    h+=pdSuggestion('How many duplicate records have been merged this year?','');
+    h+='</div></div>';
+    msgs.innerHTML=h;
+    return;
+  }
+
+  var h='<div class="pm user"><div class="pm-bub">Review my 5 high-confidence duplicates</div></div>';
+  h+='<div class="pm penny"><div class="pm-bub">Sure, let\u2019s go through them. Here are your <strong>'+active.length+' high-confidence duplicate'+(active.length!==1?'s':'')+'</strong>.</div></div>';
+
+  // Only show active cards
+  active.forEach(function(d){
+    var df=function(a,b){return a!==b;};
+    h+='<div class="pdd-card">';
+    h+='<div class="pdd-card-top"><span class="pdd-card-names">'+d.nA+' \u2194 '+d.nB+'</span><span class="pdd-badge">'+d.pct+'%</span></div>';
+    h+='<div class="pdd-reason">'+d.reason+'</div>';
+    h+='<div class="pdd-diff">';
+    if(df(d.eA,d.eB)) h+='Email: <span>'+d.eA+'</span> vs <span>'+d.eB+'</span><br>';
+    if(df(d.pA,d.pB)) h+='Phone: <span>'+d.pA+'</span> vs <span>'+d.pB+'</span><br>';
+    if(df(d.aA,d.aB)) h+='Address: <span>'+d.aA+'</span> vs <span>'+d.aB+'</span><br>';
+    h+='Combined giving: <span>'+d.tot+'</span>';
+    h+='</div>';
+    h+='<div style="font-size:13px;color:var(--platform-60);margin-bottom:16px;">Merging keeps <strong style="color:var(--platform-80);">'+d.nA+'</strong> as the primary record.</div>';
+    h+='<div class="pdd-actions"><button class="pdd-btn pdd-btn-sec" onclick="pddIgnoreReview('+d.id+')">Not a match</button><button class="pdd-btn pdd-btn-pri" onclick="pddMergeReview('+d.id+')">Merge</button></div>';
+    h+='</div>';
+  });
+
+  msgs.innerHTML=h;
+  msgs.scrollTop=0;
+}
+
+function pddMergeReview(id){
+  ddState[id]='merged';
+  pdDedupState[id]='merged';
+  // Show brief confirmation then refresh
+  var d=DD.find(function(x){return x.id===id;});
+  var card=event.target.closest('.pdd-card');
+  if(card){
+    card.innerHTML='<div style="display:flex;align-items:center;justify-content:space-between;padding:4px 0;"><span style="font-size:14px;color:var(--platform-60);">'+d.nA+' \u2194 '+d.nB+'</span><span style="color:#317005;font-weight:700;font-size:13px;"><i class="fa-solid fa-check" style="font-size:11px;margin-right:4px;"></i>Merged</span></div>';
+    card.style.transition='opacity 0.3s ease';
+    card.style.padding='12px 0';
+    setTimeout(function(){card.style.opacity='0';},1500);
+    setTimeout(function(){pddShowReview();},2000);
+  } else {
+    pddShowReview();
+  }
+}
+
+function pddIgnoreReview(id){
+  ddState[id]='ignored';
+  pdDedupState[id]='ignored';
+  var d=DD.find(function(x){return x.id===id;});
+  var card=event.target.closest('.pdd-card');
+  if(card){
+    card.innerHTML='<div style="display:flex;align-items:center;justify-content:space-between;padding:4px 0;"><span style="font-size:14px;color:var(--platform-60);">'+d.nA+' \u2194 '+d.nB+'</span><span style="color:#914708;font-weight:700;font-size:13px;">Ignored</span></div>';
+    card.style.transition='opacity 0.3s ease';
+    card.style.padding='12px 0';
+    setTimeout(function(){card.style.opacity='0';},1500);
+    setTimeout(function(){pddShowReview();},2000);
+  } else {
+    pddShowReview();
+  }
+}
+
+function pddMerge(id){
+  ddState[id]='merged';
+  pdDedupState[id]='merged';
+  showPennyDedupCards();
+}
+
+function pddMergeAll(){
+  DD.filter(function(d){return d.conf==='high'&&!ddState[d.id];}).forEach(function(d){
+    ddState[d.id]='merged';
+    pdDedupState[d.id]='merged';
+  });
+  showPennyDedupCards();
+}
+
+function pddIgnore(id){
+  ddState[id]='ignored';
+  pdDedupState[id]='ignored';
+  showPennyDedupCards();
+}
+
+// Penny drawer scroll — show/hide header border
+document.getElementById('pdMsgs').addEventListener('scroll',function(){
+  var hd=document.querySelector('.pd-hd');
+  if(hd){if(this.scrollTop>0)hd.classList.add('scrolled');else hd.classList.remove('scrolled');}
+});
+document.getElementById('pdHome').addEventListener('scroll',function(){
+  var hd=document.querySelector('.pd-hd');
+  if(hd){if(this.scrollTop>0)hd.classList.add('scrolled');else hd.classList.remove('scrolled');}
+});
+</script>
 </body>
 </html>
