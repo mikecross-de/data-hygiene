@@ -3497,7 +3497,7 @@ function rvRender(){
     var badgeBg=isMerged?'#d9e9cd':'#fde9d8';
     var badgeColor=isMerged?'#296401':'#914708';
     var statusBadge='<span style="font-size:12px;font-weight:700;padding:2px 6px;border-radius:4px;line-height:18px;background:'+badgeBg+';color:'+badgeColor+';">'+it.status+'</span>';
-    var canUndo=it.status!=='Merged'&&it.status!=='Household Created';
+    var canUndo=(it.src==='dh');
     var actionTd=canUndo?'<td style="padding:16px;border-bottom:1px solid #d4d5d6;text-align:right;"><button class="dh-btn dh-btn--sec" onclick="'+it.undoFn+';rvRender();">Undo</button></td>':'<td style="padding:16px;border-bottom:1px solid #d4d5d6;"></td>';
     tr.innerHTML='<td style="padding:16px;font-size:14px;color:#272d30;border-bottom:1px solid #d4d5d6;">'+it.name+'</td><td style="padding:16px;font-size:14px;color:#272d30;border-bottom:1px solid #d4d5d6;">'+it.type+'</td><td style="padding:16px;border-bottom:1px solid #d4d5d6;">'+statusBadge+'</td>'+actionTd;
     tbody.appendChild(tr);
