@@ -40,12 +40,13 @@
 .dh-cat-tab-btn.active .dh-cat-ct{background:var(--penny-5);color:var(--penny-200);}
 
 /* ── Master-detail shell ── */
-.md-shell{display:flex;margin:0 24px;background:var(--white);border-radius:0 0 4px 4px;min-height:300px;flex:1;overflow:hidden;}
+.md-shell{display:flex;margin:0 24px;background:var(--white);border-radius:4px;min-height:300px;flex:1;overflow:hidden;}
 .md-master{width:350px;border-right:1px solid var(--platform-20);display:flex;flex-direction:column;flex-shrink:0;}
 .md-master-hd{padding:12px 16px;border-bottom:1px solid var(--platform-20);display:flex;align-items:center;justify-content:space-between;}
 .md-master-ct{font-size:14px;font-weight:600;color:var(--platform-100);}
 .md-master-list{flex:1;overflow-y:auto;}
 .md-item{display:flex;align-items:center;gap:16px;padding:12px 16px;border-bottom:1px solid var(--platform-20);cursor:pointer;transition:background 0.1s;}
+.md-item:last-child{border-bottom:none;}
 .md-item:hover{background:var(--platform-5);}
 .md-item.active{background:var(--platform-5);}
 .md-item.resolved{opacity:0.45;}
@@ -144,7 +145,7 @@
 .pd-block-sub{font-size:13px;line-height:17px;font-weight:400;color:var(--platform-80);}
 
 /* ── Hub cards ── */
-.dh-hub-card{background:var(--white);border-radius:6px;padding:20px;cursor:pointer;display:flex;flex-direction:column;gap:6px;position:relative;}
+.dh-hub-card{background:var(--white);border-radius:4px;padding:20px;cursor:pointer;display:flex;flex-direction:column;gap:6px;position:relative;}
 .dh-hub-card:hover{}
 .dh-hub-card-top{display:flex;align-items:flex-start;justify-content:space-between;}
 .dh-hub-card-count{font-size:32px;font-weight:700;line-height:1;color:var(--platform-100);display:inline-flex;align-items:center;gap:8px;}
@@ -477,6 +478,7 @@ button{font-family:var(--font);cursor:pointer;}
 .left-nav.collapsed{width:var(--nav-collapsed);}
 .left-nav-items{display:flex;flex-direction:column;gap:8px;padding:0 0 8px;flex:1;overflow:hidden;}
 .nav-item{display:flex;align-items:center;gap:12px;height:40px;padding:8px 16px;cursor:pointer;font-size:16px;font-weight:400;line-height:21px;color:var(--platform-100);border-left:4px solid transparent;white-space:nowrap;transition:background 0.1s;}
+.nav-dot{width:8px;height:8px;background:#EE4A5D;border-radius:50%;flex-shrink:0;margin-left:6px;}
 .nav-item:hover{background:var(--platform-5);}
 .nav-item.active{background:var(--crm-10);border-left-color:var(--crm-100);font-weight:600;}
 .nav-item-icon{width:24px;height:24px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--platform-60);font-size:16px;}
@@ -981,14 +983,14 @@ table.atbl tr:last-child td{border-bottom:none;}
       <a class="nav-item" href="#" role="listitem" aria-haspopup="true" aria-expanded="false"
          onclick="toggleSub(event,'sub-data')">
         <span class="nav-item-icon"><svg class="nav-svg-icon" aria-hidden="true"><use href="#icon-toolbox"/></svg></span>
-        <span class="nav-item-label">Data Tools</span>
+        <span class="nav-item-label">Data Tools</span><span class="nav-dot"></span>
         <span class="nav-item-chev"><svg class="nav-svg-icon" aria-hidden="true"><use href="#icon-caret-right"/></svg></span>
       </a>
       <div class="nav-sub" id="sub-data">
         <a class="sub-item" href="#">Import</a>
         <a class="sub-item" href="#">API Access</a>
         <a class="sub-item" href="#">Bulk Update</a>
-        <a class="sub-item" href="#" onclick="event.preventDefault();showView('datahealth')">Data Health Hub</a>
+        <a class="sub-item" href="#" onclick="event.preventDefault();showView('datahealth')">Data Health Hub<span class="nav-dot"></span></a>
       </div>
 
       <a class="nav-item" href="#" onclick="nav(event,null)" role="listitem">
@@ -1024,33 +1026,20 @@ table.atbl tr:last-child td{border-bottom:none;}
       <!-- Tile grid -->
       <div class="tile-grid">
 
-        <!-- ── ROW 1 RIGHT: Key Metrics ── -->
-        <div class="tile" style="grid-column:3;grid-row:1;height:424px;display:flex;flex-direction:column;gap:16px;padding:24px;">
+        <!-- ── ROW 1 RIGHT: Data Health ── -->
+        <div class="tile" style="grid-column:3;grid-row:1;height:424px;display:flex;flex-direction:column;gap:16px;">
           <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">
-            <div style="flex:1;font-size:20px;font-weight:700;line-height:24px;">Key Metrics</div>
-            <span class="tile-badge">Current FY</span>
+            <div style="flex:1;font-size:20px;font-weight:700;line-height:24px;">Data Health</div>
+            <span class="tile-badge">Data Health Agent</span>
           </div>
-          <div style="flex:1;display:grid;grid-template-columns:1fr 1fr;gap:16px;">
-            <div style="border:1px solid #d4d5d6;border-radius:4px;padding:16px;display:flex;flex-direction:column;justify-content:center;gap:4px;">
-              <div style="font-size:29px;font-weight:700;line-height:35px;color:#272d30;">312</div>
-              <div style="font-size:12px;font-weight:600;color:#272d30;line-height:18px;">Total Donor Count</div>
-              <div style="font-size:12px;color:#272d30;line-height:18px;display:flex;align-items:center;gap:4px;margin-top:4px;"><i class="fa-solid fa-caret-up" style="font-size:16px;color:#3f9107;"></i><span style="font-weight:600;">+3</span><span style="font-weight:400;"> from last month</span></div>
-            </div>
-            <div style="border:1px solid #d4d5d6;border-radius:4px;padding:16px;display:flex;flex-direction:column;justify-content:center;gap:4px;">
-              <div style="font-size:29px;font-weight:700;line-height:35px;color:#272d30;">14</div>
-              <div style="font-size:12px;font-weight:600;color:#272d30;line-height:18px;">New Donor Count</div>
-              <div style="font-size:12px;color:#272d30;line-height:18px;display:flex;align-items:center;gap:4px;margin-top:4px;"><i class="fa-solid fa-caret-up" style="font-size:16px;color:#3f9107;"></i><span style="font-weight:600;">+3</span><span style="font-weight:400;"> from last month</span></div>
-            </div>
-            <div style="border:1px solid #d4d5d6;border-radius:4px;padding:16px;display:flex;flex-direction:column;justify-content:center;gap:4px;">
-              <div style="font-size:29px;font-weight:700;line-height:35px;color:#272d30;">1,247</div>
-              <div style="font-size:12px;font-weight:600;color:#272d30;line-height:18px;">Total Transactions</div>
-              <div style="font-size:12px;color:#272d30;line-height:18px;display:flex;align-items:center;gap:4px;margin-top:4px;"><i class="fa-solid fa-caret-up" style="font-size:16px;color:#3f9107;"></i><span style="font-weight:600;">+5</span><span style="font-weight:400;"> from last month</span></div>
-            </div>
-            <div style="border:1px solid #d4d5d6;border-radius:4px;padding:16px;display:flex;flex-direction:column;justify-content:center;gap:4px;">
-              <div style="font-size:29px;font-weight:700;line-height:35px;color:#272d30;">$423</div>
-              <div style="font-size:12px;font-weight:600;color:#272d30;line-height:18px;">Avg Gift Size</div>
-              <div style="font-size:12px;color:#272d30;line-height:18px;display:flex;align-items:center;gap:4px;margin-top:4px;"><i class="fa-solid fa-caret-up" style="font-size:16px;color:#3f9107;"></i><span style="font-weight:600;">+15%</span><span style="font-weight:400;"> from last month</span></div>
-            </div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;border-bottom:1px solid var(--platform-20);padding-bottom:16px;gap:6px;">
+            <a href="#" onclick="event.preventDefault();showView('datahealth')" style="font-size:56px;font-weight:700;line-height:1;color:var(--platform-100);text-decoration:none;" onmouseover="this.style.color='var(--crm-100)';this.style.textDecoration='underline'" onmouseout="this.style.color='var(--platform-100)';this.style.textDecoration='none'">58</a>
+            <div style="font-size:14px;color:var(--platform-100);">Data quality issues found</div>
+            <button class="dh-btn dh-btn--ghost" onclick="showView('datahealth')" style="margin-top:12px;font-size:14px;">View Data Health Hub</button>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px;flex-shrink:0;">
+            <div style="display:flex;align-items:center;gap:8px;font-size:16px;"><a href="#" onclick="event.preventDefault();dhGoToCat('dupes');" style="font-weight:700;min-width:28px;color:var(--platform-100);text-decoration:none;" onmouseover="this.style.color='var(--crm-100)';this.style.textDecoration='underline'" onmouseout="this.style.color='var(--platform-100)';this.style.textDecoration='none'">18</a><span style="color:var(--platform-80);">Duplicate constituents</span></div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:16px;"><a href="#" onclick="event.preventDefault();dhGoToCat('names');" style="font-weight:700;min-width:28px;color:var(--platform-100);text-decoration:none;" onmouseover="this.style.color='var(--crm-100)';this.style.textDecoration='underline'" onmouseout="this.style.color='var(--platform-100)';this.style.textDecoration='none'">40</a><span style="color:var(--platform-80);">Name formatting</span></div>
           </div>
         </div>
 
@@ -1386,7 +1375,7 @@ table.atbl tr:last-child td{border-bottom:none;}
           <div class="md-master" id="md-master">
             <div id="dd-master-header" style="border-bottom:1px solid var(--platform-20);background:var(--white);flex-shrink:0;">
               <div style="padding:16px 16px 6px;">
-                <div style="position:relative;"><i class="fa-solid fa-magnifying-glass" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:14px;color:var(--platform-40);"></i><input type="text" id="dd-search-input" placeholder="Search duplicates..." oninput="ddSearchTerm=this.value;ddRenderList();" style="width:100%;font-size:14px;font-family:var(--font);border:1px solid #a9abac;border-radius:4px;padding:8px 16px 8px 36px;color:var(--platform-100);outline:none;box-sizing:border-box;line-height:21px;" onfocus="this.style.border='2px solid var(--crm-100)';this.style.padding='7px 15px 7px 35px';" onblur="this.style.border='1px solid #a9abac';this.style.padding='8px 16px 8px 36px';"></div>
+                <div style="position:relative;"><i class="fa-solid fa-magnifying-glass" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:14px;color:var(--platform-40);"></i><input type="text" id="dd-search-input" placeholder="Search duplicates..." oninput="ddSearchTerm=this.value;ddPage=1;ddRenderList();" style="width:100%;font-size:14px;font-family:var(--font);border:1px solid #a9abac;border-radius:4px;padding:8px 16px 8px 36px;color:var(--platform-100);outline:none;box-sizing:border-box;line-height:21px;" onfocus="this.style.border='2px solid var(--crm-100)';this.style.padding='7px 15px 7px 35px';" onblur="this.style.border='1px solid #a9abac';this.style.padding='8px 16px 8px 36px';"></div>
               </div>
               <div style="padding:12px 16px;display:flex;align-items:center;gap:16px;font-size:14px;font-weight:600;color:var(--platform-100);">
                 <span class="dh-cb-wrap"><input type="checkbox" class="dh-cb" id="dd-select-all" onchange="ddToggleAll(this)"></span>
@@ -1399,6 +1388,11 @@ table.atbl tr:last-child td{border-bottom:none;}
               </div>
             </div>
             <div class="md-master-list" id="md-master-list"></div>
+            <div id="dd-pagination" style="display:none;border-top:1px solid var(--platform-20);padding:12px 16px;display:flex;align-items:center;justify-content:flex-end;gap:12px;font-size:14px;flex-shrink:0;background:var(--white);">
+              <span style="color:var(--platform-80);" id="dd-page-range">1–20 of 21</span>
+              <a href="#" id="dd-page-prev" onclick="event.preventDefault();ddPagePrev();" style="color:#7d8183;font-size:14px;text-decoration:none;"><i class="fa-solid fa-chevron-left"></i></a>
+              <a href="#" id="dd-page-next" onclick="event.preventDefault();ddPageNext();" style="color:#7d8183;font-size:14px;text-decoration:none;"><i class="fa-solid fa-chevron-right"></i></a>
+            </div>
           </div>
           <div class="md-detail" id="md-detail">
             <div id="md-detail-content"></div>
@@ -3552,6 +3546,8 @@ function ddSetStatus(el){document.querySelectorAll('.dh-tab').forEach(function(t
 function ddToggleFilter(el){ddFilterHigh=!ddFilterHigh;el.classList.toggle('active');ddActiveId=null;ddRender();}
 var ddSortBy='newest';
 var ddSearchTerm='';
+var ddPage=1;
+var ddPageSize=10;
 function ddFiltered(){
   var l=DD.filter(function(d){return ddStatus==='active'?!ddState[d.id]:!!ddState[d.id];});
   if(ddFilterHigh&&ddStatus==='active')l=l.filter(function(d){return d.conf==='high';});
@@ -3684,6 +3680,7 @@ function ddUpdateCounts(){}
 
 function ddSetSort(val){
   ddSortBy=val;
+  ddPage=1;
   document.getElementById('dd-sort-newest').style.fontWeight=val==='newest'?'700':'400';
   document.getElementById('dd-sort-newest').style.color=val==='newest'?'var(--crm-100)':'var(--platform-60)';
   document.getElementById('dd-sort-oldest').style.fontWeight=val==='oldest'?'700':'400';
@@ -3691,6 +3688,20 @@ function ddSetSort(val){
   document.getElementById('dd-sort-alpha').style.fontWeight=val==='alpha'?'700':'400';
   document.getElementById('dd-sort-alpha').style.color=val==='alpha'?'var(--crm-100)':'var(--platform-60)';
   ddRenderList();
+}
+function ddPagePrev(){if(ddPage>1){ddPage--;ddRenderList();}}
+function ddPageNext(){var total=ddFiltered().length;if(ddPage*ddPageSize<total){ddPage++;ddRenderList();}}
+function ddUpdatePagination(total){
+  var pag=document.getElementById('dd-pagination');
+  if(total<=ddPageSize){pag.style.display='none';return;}
+  pag.style.display='flex';
+  var start=(ddPage-1)*ddPageSize+1;
+  var end=Math.min(ddPage*ddPageSize,total);
+  document.getElementById('dd-page-range').textContent=start+'\u2013'+end+' of '+total;
+  document.getElementById('dd-page-prev').style.color=ddPage>1?'#272d30':'#a9abac';
+  document.getElementById('dd-page-prev').style.pointerEvents=ddPage>1?'auto':'none';
+  document.getElementById('dd-page-next').style.color=end<total?'#272d30':'#a9abac';
+  document.getElementById('dd-page-next').style.pointerEvents=end<total?'auto':'none';
 }
 
 function ddRenderList(){
@@ -3702,14 +3713,20 @@ function ddRenderList(){
   list.innerHTML='';
 
   var activeCount=items.filter(function(d){return !ddState[d.id];}).length;
+  var totalItems=items.length;
+  var pageItems=items.slice((ddPage-1)*ddPageSize,ddPage*ddPageSize);
+  var pageActiveItems=pageItems.filter(function(d){return !ddState[d.id];});
+  var pageActiveCount=pageActiveItems.length;
   // Update header state
   var selLabel=document.getElementById('dd-select-label');
-  if(selLabel)selLabel.textContent='Select all ('+activeCount+')';
+  if(selLabel)selLabel.textContent='Select all ('+pageActiveCount+')';
+  var allPageSelected=pageActiveCount>0&&pageActiveItems.every(function(d){return ddSelected.indexOf(d.id)!==-1;});
   var selAll=document.getElementById('dd-select-all');
-  if(selAll)selAll.checked=activeCount>0&&ddSelected.length===activeCount;
+  if(selAll)selAll.checked=allPageSelected;
 
   if(items.length===0){
     var totalResolved=DD.filter(function(d){return !!ddState[d.id];}).length;
+    document.getElementById('dd-pagination').style.display='none';
     if(ddSearchTerm){
       list.innerHTML='<div style="padding:32px 16px;text-align:center;color:var(--platform-60);font-size:14px;">No results found</div>';
     } else if(totalResolved>0){
@@ -3728,7 +3745,8 @@ function ddRenderList(){
   }
 
   header.style.display='block';
-  items.forEach(function(d){
+  ddUpdatePagination(totalItems);
+  pageItems.forEach(function(d){
     var isActive=ddActiveId===d.id;
     var isRes=!!ddState[d.id];
     var isChecked=ddSelected.indexOf(d.id)!==-1;
@@ -3894,7 +3912,7 @@ function diffRow(label,valB,valA,isDiff){
 }
 function ddSwapKeep(id,side){ddKeepSide[id]=side;ddRenderDetail();}
 function ddToggleRow(id,cb){if(cb.checked){if(ddSelected.indexOf(id)===-1)ddSelected.push(id);}else{ddSelected=ddSelected.filter(function(x){return x!==id;});}ddUpdateBulkBar();}
-function ddToggleAll(cb){var items=ddFiltered().filter(function(d){return !ddState[d.id];});if(cb.checked){items.forEach(function(d){if(ddSelected.indexOf(d.id)===-1)ddSelected.push(d.id);});}else{ddSelected=[];}ddUpdateBulkBar();ddRender();}
+function ddToggleAll(cb){var items=ddFiltered().filter(function(d){return !ddState[d.id];});var pageItems=items.slice((ddPage-1)*ddPageSize,ddPage*ddPageSize);if(cb.checked){pageItems.forEach(function(d){if(ddSelected.indexOf(d.id)===-1)ddSelected.push(d.id);});}else{var pageIds=pageItems.map(function(d){return d.id;});ddSelected=ddSelected.filter(function(id){return pageIds.indexOf(id)===-1;});}ddUpdateBulkBar();ddRender();}
 function ddToggleSection(conf,cb){var items=ddFiltered().filter(function(d){return d.conf===conf&&!ddState[d.id];});if(cb.checked){items.forEach(function(d){if(ddSelected.indexOf(d.id)===-1)ddSelected.push(d.id);});}else{var ids=items.map(function(d){return d.id;});ddSelected=ddSelected.filter(function(x){return ids.indexOf(x)===-1;});}ddUpdateBulkBar();ddRender();}
 function ddUpdateBulkBar(){var bar=document.getElementById('dd-bulk-bar');if(!bar)return;if(ddSelected.length>0){bar.classList.add('visible');document.getElementById('dd-bulk-count').textContent=ddSelected.length+' selected';}else{bar.classList.remove('visible');}}
 function ddBulkMerge(){var count=ddSelected.length;if(count===1){ddConfirmMerge(ddSelected[0]);return;}var modal=document.getElementById('dh-modal');document.querySelector('.dh-modal').style.width='600px';document.getElementById('dh-modal-title').textContent='Merge '+count+' pairs';var body='<p>This will merge <strong>'+count+' duplicate pairs</strong> into their kept records. All data will be combined into each kept record.</p>';body+='<div style="margin-top:16px;max-height:324px;overflow-y:auto;">';ddSelected.forEach(function(id,idx){var d=DD.find(function(x){return x.id===id;});var keep=ddKeepSide[id]||'A';var keepName=keep==='A'?d.nA:d.nB;var dupName=keep==='A'?d.nB:d.nA;var keepId=keep==='A'?'#12047':'#48291';var dupId=keep==='A'?'#48291':'#12047';var isLast=idx===ddSelected.length-1;body+='<div style="padding:12px 0;font-size:14px;'+(isLast?'':'border-bottom:1px solid var(--platform-20);')+'"><strong>'+dupName+'</strong> (<strong>'+dupId+'</strong>) merges into <strong>'+keepName+'</strong> (<strong>'+keepId+'</strong>)</div>';});body+='</div>';document.getElementById('dh-modal-body').innerHTML=body;document.getElementById('dh-modal-footer').innerHTML='<button class="dh-modal-btn dh-modal-btn--sec" onclick="dhModalClose()">Cancel</button><button class="dh-modal-btn dh-modal-btn--pri" onclick="dhModalClose();ddBulkMergeExec('+count+')">Merge All '+count+'</button>';modal.classList.add('open');}
