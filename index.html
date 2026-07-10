@@ -364,7 +364,7 @@ td.diff-match-val{color:var(--platform-60);}
 .dh-btn{font-family:var(--font);font-weight:700;border-radius:4px;cursor:pointer;border:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:5px 8px 6px;font-size:14px;line-height:18px;white-space:nowrap;transition:background 0.1s;}
 .dh-btn--pri{background:var(--crm-100);color:var(--white);padding:5px 8px 6px;}.dh-btn--pri:hover{background:var(--crm-200);}
 .dh-btn--sec{background:var(--white);color:#272d30;border:1px solid #272d30;padding:5px 8px 6px;}.dh-btn--sec:hover{background:#d4d5d6;border-color:#dad7d9;}
-.dh-btn--ghost{background:transparent;color:var(--crm-100);padding:5px 8px 6px;}.dh-btn--ghost:hover{background:var(--crm-20);}
+.dh-btn--ghost{background:transparent;color:var(--crm-100);padding:4px 12px 4px;}.dh-btn--ghost:hover{background:var(--crm-20);}
 .dh-btn--ghost-active{background:var(--crm-20);}
 .dh-actions{display:flex;gap:6px;align-items:center;justify-content:flex-end;}
 .dh-dismiss-wrap{position:relative;display:inline-block;}
@@ -963,8 +963,8 @@ table.atbl tr:last-child td{border-bottom:none;}
         <button class="ic-btn dot" aria-label="Notifications" onclick="toggleNotifDropdown()"><svg class="nav-svg-icon" aria-hidden="true"><use href="#icon-bell"/></svg></button>
         <div class="notif-dropdown" id="notifDropdown">
           <div class="notif-tabs">
-            <button type="button" class="notif-tab active" id="notif-tab-new" onclick="notifSwitchTab('new')">New <span class="notif-tab-badge notif-tab-badge--green" id="notif-badge-new">7</span></button>
-            <button type="button" class="notif-tab" id="notif-tab-hidden" onclick="notifSwitchTab('hidden')">Hidden <span class="notif-tab-badge notif-tab-badge--gray" id="notif-badge-hidden">2</span></button>
+            <button type="button" class="notif-tab active" id="notif-tab-new" onclick="notifSwitchTab('new',event)">New <span class="notif-tab-badge notif-tab-badge--green" id="notif-badge-new">7</span></button>
+            <button type="button" class="notif-tab" id="notif-tab-hidden" onclick="notifSwitchTab('hidden',event)">Hidden <span class="notif-tab-badge notif-tab-badge--gray" id="notif-badge-hidden">2</span></button>
           </div>
           <div class="notif-list" id="notif-list-new">
             <div class="notif-item" id="notif-1">
@@ -972,7 +972,7 @@ table.atbl tr:last-child td{border-bottom:none;}
               <div class="notif-sub">The Dedup Agent found potential matches that need your review.</div>
               <div class="notif-actions">
                 <button class="notif-action-btn" onclick="notifNav('dupes')">Review duplicates</button>
-                <button class="notif-dismiss-btn" onclick="notifHide('notif-1')">Dismiss</button>
+                <button class="notif-dismiss-btn" onclick="notifHide('notif-1',event)">Dismiss</button>
                 <span class="notif-action-date">July 9 at 4:49 PM</span>
               </div>
             </div>
@@ -981,7 +981,7 @@ table.atbl tr:last-child td{border-bottom:none;}
               <div class="notif-sub">The Formatting Agent detected names in all caps, all lowercase, or with extra spaces.</div>
               <div class="notif-actions">
                 <button class="notif-action-btn" onclick="notifNav('names')">Review names</button>
-                <button class="notif-dismiss-btn" onclick="notifHide('notif-2')">Dismiss</button>
+                <button class="notif-dismiss-btn" onclick="notifHide('notif-2',event)">Dismiss</button>
                 <span class="notif-action-date">July 9 at 4:49 PM</span>
               </div>
             </div>
@@ -990,7 +990,7 @@ table.atbl tr:last-child td{border-bottom:none;}
               <div class="notif-sub">"Major Donors FY26 YTD" has been exported as a CSV file and is ready to download.</div>
               <div class="notif-actions">
                 <button class="notif-action-btn" onclick="notifNav('dashboard')">Download file</button>
-                <button class="notif-dismiss-btn" onclick="notifHide('notif-7')">Dismiss</button>
+                <button class="notif-dismiss-btn" onclick="notifHide('notif-7',event)">Dismiss</button>
                 <span class="notif-action-date">July 9 at 3:12 PM</span>
               </div>
             </div>
@@ -999,7 +999,7 @@ table.atbl tr:last-child td{border-bottom:none;}
               <div class="notif-sub">Penny detected a decline in recurring revenue compared to last month. 8 schedules were canceled.</div>
               <div class="notif-actions">
                 <button class="notif-action-btn" onclick="notifOpenPenny('Tell me more about the 12% drop in recurring giving this month. Which schedules were canceled and what patterns do you see?')">Ask Penny</button>
-                <button class="notif-dismiss-btn" onclick="notifHide('notif-3')">Dismiss</button>
+                <button class="notif-dismiss-btn" onclick="notifHide('notif-3',event)">Dismiss</button>
                 <span class="notif-action-date">July 8 at 10:23 AM</span>
               </div>
             </div>
@@ -1008,7 +1008,7 @@ table.atbl tr:last-child td{border-bottom:none;}
               <div class="notif-sub">Penny identified donors who haven't given in 11+ months and may lapse within 30 days.</div>
               <div class="notif-actions">
                 <button class="notif-action-btn" onclick="notifOpenPenny('Show me the 13 donors at risk of lapsing. What are their giving histories and what do you recommend for re-engagement?')">Ask Penny</button>
-                <button class="notif-dismiss-btn" onclick="notifHide('notif-4')">Dismiss</button>
+                <button class="notif-dismiss-btn" onclick="notifHide('notif-4',event)">Dismiss</button>
                 <span class="notif-action-date">July 8 at 10:23 AM</span>
               </div>
             </div>
@@ -1017,7 +1017,7 @@ table.atbl tr:last-child td{border-bottom:none;}
               <div class="notif-sub">Total gifts: $4,280 across 32 transactions. Up 8% from last week.</div>
               <div class="notif-actions">
                 <button class="notif-action-btn" onclick="notifOpenPenny('Walk me through this week\'s giving summary. How does it compare to our monthly average and are there any trends I should know about?')">Ask Penny</button>
-                <button class="notif-dismiss-btn" onclick="notifHide('notif-5')">Dismiss</button>
+                <button class="notif-dismiss-btn" onclick="notifHide('notif-5',event)">Dismiss</button>
                 <span class="notif-action-date">July 7 at 8:15 AM</span>
               </div>
             </div>
@@ -1026,16 +1026,17 @@ table.atbl tr:last-child td{border-bottom:none;}
               <div class="notif-sub">The latest scan finished processing 12,847 records. 61 issues require attention.</div>
               <div class="notif-actions">
                 <button class="notif-action-btn" onclick="notifNav('datahealth')">View results</button>
-                <button class="notif-dismiss-btn" onclick="notifHide('notif-6')">Dismiss</button>
+                <button class="notif-dismiss-btn" onclick="notifHide('notif-6',event)">Dismiss</button>
                 <span class="notif-action-date">July 7 at 8:15 AM</span>
               </div>
+            </div>
           </div>
           <div class="notif-list" id="notif-list-hidden" style="display:none;">
             <div class="notif-item" id="notif-8">
               <div class="notif-title">Spring Appeal email had a 42% open rate</div>
               <div class="notif-sub">Your latest campaign outperformed your average by 12%. Top performing segment: Major Donors.</div>
               <div class="notif-actions">
-                <button class="notif-dismiss-btn" onclick="notifShow('notif-8')">Restore</button>
+                <button class="notif-dismiss-btn" onclick="notifShow('notif-8',event)">Restore</button>
                 <span class="notif-action-date">June 28 at 2:15 PM</span>
               </div>
             </div>
@@ -1043,7 +1044,7 @@ table.atbl tr:last-child td{border-bottom:none;}
               <div class="notif-title">2 recurring schedules failed last week</div>
               <div class="notif-sub">Payment processing failed for Margaret Ellis and David Nguyen. Cards may need to be updated.</div>
               <div class="notif-actions">
-                <button class="notif-dismiss-btn" onclick="notifShow('notif-9')">Restore</button>
+                <button class="notif-dismiss-btn" onclick="notifShow('notif-9',event)">Restore</button>
                 <span class="notif-action-date">June 25 at 11:45 AM</span>
               </div>
             </div>
@@ -1160,13 +1161,13 @@ table.atbl tr:last-child td{border-bottom:none;}
             <span class="tile-badge">Data Health Agent</span>
           </div>
           <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;border-bottom:1px solid var(--platform-20);padding-bottom:16px;gap:6px;">
-            <a href="#" onclick="event.preventDefault();showView('datahealth')" style="font-size:56px;font-weight:700;line-height:1;color:var(--platform-100);text-decoration:none;" onmouseover="this.style.color='var(--crm-100)';this.style.textDecoration='underline'" onmouseout="this.style.color='var(--platform-100)';this.style.textDecoration='none'">61</a>
+            <a href="#" onclick="event.preventDefault();showView('datahealth');dhBackToHub();" style="font-size:56px;font-weight:700;line-height:1;color:var(--platform-100);text-decoration:none;" onmouseover="this.style.color='var(--crm-100)';this.style.textDecoration='underline'" onmouseout="this.style.color='var(--platform-100)';this.style.textDecoration='none'">61</a>
             <div style="font-size:14px;color:var(--platform-100);">Data quality issues found</div>
-            <button class="dh-btn dh-btn--ghost" onclick="showView('datahealth')" style="margin-top:12px;font-size:14px;">View Data Health Hub</button>
+            <button class="dh-btn dh-btn--ghost" onclick="showView('datahealth');dhBackToHub();" style="margin-top:12px;font-size:14px;">View Data Health Hub</button>
           </div>
           <div style="display:flex;flex-direction:column;gap:10px;flex-shrink:0;">
-            <div style="display:flex;align-items:center;gap:8px;font-size:16px;"><a href="#" onclick="event.preventDefault();dhGoToCat('dupes');" style="font-weight:700;min-width:28px;color:var(--platform-100);text-decoration:none;" onmouseover="this.style.color='var(--crm-100)';this.style.textDecoration='underline'" onmouseout="this.style.color='var(--platform-100)';this.style.textDecoration='none'">21</a><span style="color:var(--platform-80);">Duplicate constituents</span></div>
-            <div style="display:flex;align-items:center;gap:8px;font-size:16px;"><a href="#" onclick="event.preventDefault();dhGoToCat('names');" style="font-weight:700;min-width:28px;color:var(--platform-100);text-decoration:none;" onmouseover="this.style.color='var(--crm-100)';this.style.textDecoration='underline'" onmouseout="this.style.color='var(--platform-100)';this.style.textDecoration='none'">40</a><span style="color:var(--platform-80);">Name formatting</span></div>
+            <div style="font-size:16px;"><a href="#" onclick="event.preventDefault();dhGoToCat('dupes');" style="color:var(--platform-100);text-decoration:none;" onmouseover="this.style.color='var(--crm-100)';this.style.textDecoration='underline'" onmouseout="this.style.color='var(--platform-100)';this.style.textDecoration='none'"><span style="font-weight:700;margin-right:2px;">21</span> Duplicate constituents</a></div>
+            <div style="font-size:16px;"><a href="#" onclick="event.preventDefault();dhGoToCat('names');" style="color:var(--platform-100);text-decoration:none;" onmouseover="this.style.color='var(--crm-100)';this.style.textDecoration='underline'" onmouseout="this.style.color='var(--platform-100)';this.style.textDecoration='none'"><span style="font-weight:700;margin-right:2px;">40</span> Name formatting</a></div>
           </div>
         </div>
 
@@ -3098,34 +3099,38 @@ function nav(e, viewName) {
 function toggleNotifDropdown(){var dd=document.getElementById('notifDropdown');dd.classList.toggle('open');}
 document.addEventListener('click',function(e){var dd=document.getElementById('notifDropdown');if(dd&&!e.target.closest('.notif-dropdown')&&!e.target.closest('.ic-btn.dot')){dd.classList.remove('open');}});
 
-function notifSwitchTab(tab){
-  event.stopPropagation();
+function notifSwitchTab(tab,e){
+  if(e)e.stopPropagation();
   document.getElementById('notif-tab-new').classList.toggle('active',tab==='new');
   document.getElementById('notif-tab-hidden').classList.toggle('active',tab==='hidden');
   document.getElementById('notif-list-new').style.display=tab==='new'?'block':'none';
   document.getElementById('notif-list-hidden').style.display=tab==='hidden'?'block':'none';
 }
 
-function notifHide(id){
+function notifHide(id,e){
+  if(e)e.stopPropagation();
   var el=document.getElementById(id);
   if(!el)return;
   var hiddenList=document.getElementById('notif-list-hidden');
   var empty=hiddenList.querySelector('.notif-empty');
   if(empty)empty.remove();
   var dismissBtn=el.querySelector('.notif-dismiss-btn');
-  if(dismissBtn){dismissBtn.textContent='Restore';dismissBtn.setAttribute('onclick','notifShow(\''+id+'\')');}
+  if(dismissBtn){dismissBtn.textContent='Restore';dismissBtn.onclick=function(ev){notifShow(id,ev);};}
   var actionBtn=el.querySelector('.notif-action-btn');
   if(actionBtn)actionBtn.style.display='none';
-  hiddenList.appendChild(el);
+  var dateEl=el.querySelector('.notif-action-date');
+  if(dateEl)dateEl.style.marginLeft='auto';
+  hiddenList.prepend(el);
   notifUpdateCounts();
 }
 
-function notifShow(id){
+function notifShow(id,e){
+  if(e)e.stopPropagation();
   var el=document.getElementById(id);
   if(!el)return;
   var newList=document.getElementById('notif-list-new');
   var dismissBtn=el.querySelector('.notif-dismiss-btn');
-  if(dismissBtn){dismissBtn.textContent='Dismiss';dismissBtn.setAttribute('onclick','notifHide(\''+id+'\')');}
+  if(dismissBtn){dismissBtn.textContent='Dismiss';dismissBtn.onclick=function(ev){notifHide(id,ev);};}
   var actionBtn=el.querySelector('.notif-action-btn');
   if(actionBtn)actionBtn.style.display='';
   newList.appendChild(el);
