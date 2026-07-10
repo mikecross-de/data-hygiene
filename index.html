@@ -463,7 +463,43 @@ button{font-family:var(--font);cursor:pointer;}
 .icon-cluster{display:flex;align-items:center;}
 .ic-btn{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--white);font-size:14px;border:none;background:transparent;transition:background 0.12s;position:relative;flex-shrink:0;}
 .ic-btn:hover{background:rgba(255,255,255,0.12);}
-.ic-btn.dot::after{content:'';position:absolute;top:7px;right:7px;width:6px;height:6px;background:#EE4A5D;border-radius:50%;border:1.5px solid var(--platform-100);}
+
+@keyframes bellRing{
+  0%{transform:rotate(0);}
+  1%{transform:rotate(14deg);}
+  3%{transform:rotate(-12deg);}
+  5%{transform:rotate(10deg);}
+  7%{transform:rotate(-8deg);}
+  8.5%{transform:rotate(4deg);}
+  10%{transform:rotate(0);}
+  100%{transform:rotate(0);}
+}
+.ic-btn.dot .nav-svg-icon{animation:bellRing 8s ease-in-out infinite;animation-delay:1.2s;transform-origin:top center;}
+
+.ic-btn.dot::after{content:'';position:absolute;top:4px;right:6px;width:10px;height:10px;background:#EE4A5D;border-radius:50%;border:1.5px solid var(--platform-100);}
+.notif-dropdown{display:none;position:absolute;top:calc(100% + 8px);right:0;width:450px;background:var(--white);border-radius:4px;box-shadow:0 8px 28px rgba(0,0,0,0.16);z-index:500;overflow:hidden;}
+.notif-dropdown.open{display:block;}
+.notif-tabs{display:flex;gap:0;border-bottom:1px solid var(--platform-20);padding:0;}
+.notif-tab{padding:12px 40px;font-size:16px;font-weight:400;color:var(--platform-60);background:transparent;border:none;border-bottom:2px solid transparent;cursor:pointer;font-family:var(--font);display:inline-flex;align-items:center;gap:8px;margin-bottom:-1px;}
+.notif-tab:hover{color:var(--platform-100);}
+.notif-tab.active{color:var(--platform-100);font-weight:700;border-bottom-color:var(--crm-100);}
+.notif-tab-badge{font-size:12px;font-weight:700;line-height:18px;padding:2px 6px;border-radius:4px;display:inline-flex;align-items:center;justify-content:center;}
+.notif-tab-badge--green{background:#d9e9cd;color:#296401;}
+.notif-tab-badge--gray{background:#e9eaea;color:#525759;}
+.notif-list{max-height:420px;overflow-y:auto;}
+.notif-item{padding:16px 24px 20px;border-bottom:1px solid var(--platform-10);display:flex;flex-direction:column;gap:8px;transition:background 0.1s;}
+.notif-item:last-child{border-bottom:none;}
+.notif-item:hover{background:var(--platform-5);}
+.notif-title{font-size:16px;font-weight:700;color:var(--platform-100);}
+.notif-time{font-size:12px;color:var(--platform-40);}
+.notif-sub{font-size:14px;color:var(--platform-80);line-height:18px;margin-top:0;}
+.notif-actions{display:flex;align-items:center;gap:8px;margin-top:8px;}
+.notif-action-btn{font-size:14px;font-weight:700;color:var(--white);background:var(--crm-100);border:1px solid var(--crm-100);border-radius:4px;cursor:pointer;font-family:var(--font);padding:4px 12px;line-height:18px;}
+.notif-action-btn:hover{background:var(--crm-200);}
+.notif-dismiss-btn{font-size:14px;font-weight:700;color:#272d30;background:var(--white);border:1px solid #272d30;border-radius:4px;cursor:pointer;font-family:var(--font);padding:4px 12px;line-height:18px;}
+.notif-dismiss-btn:hover{background:#d4d5d6;border-color:#dad7d9;}
+.notif-action-date{font-size:12px;color:var(--platform-40);margin-left:auto;}
+.notif-empty{padding:40px 16px;text-align:center;font-size:14px;color:var(--platform-60);}
 .nav-avatar-wrap{width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;border-radius:50%;transition:background 0.12s;}
 .nav-avatar-wrap:hover{background:rgba(255,255,255,0.12);}
 .nav-avatar{width:20px;height:20px;border-radius:50%;background:var(--white);display:flex;align-items:center;justify-content:center;color:var(--platform-100);font-size:14px;font-weight:700;}
@@ -479,6 +515,7 @@ button{font-family:var(--font);cursor:pointer;}
 .left-nav-items{display:flex;flex-direction:column;gap:8px;padding:0 0 8px;flex:1;overflow:hidden;}
 .nav-item{display:flex;align-items:center;gap:12px;height:40px;padding:8px 16px;cursor:pointer;font-size:16px;font-weight:400;line-height:21px;color:var(--platform-100);border-left:4px solid transparent;white-space:nowrap;transition:background 0.1s;}
 .nav-dot{width:8px;height:8px;background:#EE4A5D;border-radius:50%;flex-shrink:0;margin-left:6px;}
+.nav-badge{font-size:12px;font-weight:700;line-height:18px;background:#fed8dd;color:#c60623;padding:2px 6px;border-radius:4px;display:inline-flex;align-items:center;justify-content:center;margin-left:12px;flex-shrink:0;white-space:nowrap;}
 .nav-item:hover{background:var(--platform-5);}
 .nav-item.active{background:var(--crm-10);border-left-color:var(--crm-100);font-weight:600;}
 .nav-item-icon{width:24px;height:24px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--platform-60);font-size:16px;}
@@ -922,7 +959,97 @@ table.atbl tr:last-child td{border-bottom:none;}
     </button>
     <div class="top-nav-div" role="separator"></div>
     <div class="icon-cluster">
-      <button class="ic-btn dot" aria-label="Notifications"><svg class="nav-svg-icon" aria-hidden="true"><use href="#icon-bell"/></svg></button>
+      <div style="position:relative;display:flex;align-items:center;">
+        <button class="ic-btn dot" aria-label="Notifications" onclick="toggleNotifDropdown()"><svg class="nav-svg-icon" aria-hidden="true"><use href="#icon-bell"/></svg></button>
+        <div class="notif-dropdown" id="notifDropdown">
+          <div class="notif-tabs">
+            <button type="button" class="notif-tab active" id="notif-tab-new" onclick="notifSwitchTab('new')">New <span class="notif-tab-badge notif-tab-badge--green" id="notif-badge-new">7</span></button>
+            <button type="button" class="notif-tab" id="notif-tab-hidden" onclick="notifSwitchTab('hidden')">Hidden <span class="notif-tab-badge notif-tab-badge--gray" id="notif-badge-hidden">2</span></button>
+          </div>
+          <div class="notif-list" id="notif-list-new">
+            <div class="notif-item" id="notif-1">
+              <div class="notif-title">21 duplicate constituents found</div>
+              <div class="notif-sub">The Dedup Agent found potential matches that need your review.</div>
+              <div class="notif-actions">
+                <button class="notif-action-btn" onclick="notifNav('dupes')">Review duplicates</button>
+                <button class="notif-dismiss-btn" onclick="notifHide('notif-1')">Dismiss</button>
+                <span class="notif-action-date">July 9 at 4:49 PM</span>
+              </div>
+            </div>
+            <div class="notif-item" id="notif-2">
+              <div class="notif-title">40 names with formatting issues</div>
+              <div class="notif-sub">The Formatting Agent detected names in all caps, all lowercase, or with extra spaces.</div>
+              <div class="notif-actions">
+                <button class="notif-action-btn" onclick="notifNav('names')">Review names</button>
+                <button class="notif-dismiss-btn" onclick="notifHide('notif-2')">Dismiss</button>
+                <span class="notif-action-date">July 9 at 4:49 PM</span>
+              </div>
+            </div>
+            <div class="notif-item" id="notif-7">
+              <div class="notif-title">Your report export is ready</div>
+              <div class="notif-sub">"Major Donors FY26 YTD" has been exported as a CSV file and is ready to download.</div>
+              <div class="notif-actions">
+                <button class="notif-action-btn" onclick="notifNav('dashboard')">Download file</button>
+                <button class="notif-dismiss-btn" onclick="notifHide('notif-7')">Dismiss</button>
+                <span class="notif-action-date">July 9 at 3:12 PM</span>
+              </div>
+            </div>
+            <div class="notif-item" id="notif-3">
+              <div class="notif-title">Monthly recurring giving dropped 12%</div>
+              <div class="notif-sub">Penny detected a decline in recurring revenue compared to last month. 8 schedules were canceled.</div>
+              <div class="notif-actions">
+                <button class="notif-action-btn" onclick="notifOpenPenny('Tell me more about the 12% drop in recurring giving this month. Which schedules were canceled and what patterns do you see?')">Ask Penny</button>
+                <button class="notif-dismiss-btn" onclick="notifHide('notif-3')">Dismiss</button>
+                <span class="notif-action-date">July 8 at 10:23 AM</span>
+              </div>
+            </div>
+            <div class="notif-item" id="notif-4">
+              <div class="notif-title">13 donors at risk of lapsing</div>
+              <div class="notif-sub">Penny identified donors who haven't given in 11+ months and may lapse within 30 days.</div>
+              <div class="notif-actions">
+                <button class="notif-action-btn" onclick="notifOpenPenny('Show me the 13 donors at risk of lapsing. What are their giving histories and what do you recommend for re-engagement?')">Ask Penny</button>
+                <button class="notif-dismiss-btn" onclick="notifHide('notif-4')">Dismiss</button>
+                <span class="notif-action-date">July 8 at 10:23 AM</span>
+              </div>
+            </div>
+            <div class="notif-item" id="notif-5">
+              <div class="notif-title">Your weekly giving summary is ready</div>
+              <div class="notif-sub">Total gifts: $4,280 across 32 transactions. Up 8% from last week.</div>
+              <div class="notif-actions">
+                <button class="notif-action-btn" onclick="notifOpenPenny('Walk me through this week\'s giving summary. How does it compare to our monthly average and are there any trends I should know about?')">Ask Penny</button>
+                <button class="notif-dismiss-btn" onclick="notifHide('notif-5')">Dismiss</button>
+                <span class="notif-action-date">July 7 at 8:15 AM</span>
+              </div>
+            </div>
+            <div class="notif-item" id="notif-6">
+              <div class="notif-title">Data Health scan completed</div>
+              <div class="notif-sub">The latest scan finished processing 12,847 records. 61 issues require attention.</div>
+              <div class="notif-actions">
+                <button class="notif-action-btn" onclick="notifNav('datahealth')">View results</button>
+                <button class="notif-dismiss-btn" onclick="notifHide('notif-6')">Dismiss</button>
+                <span class="notif-action-date">July 7 at 8:15 AM</span>
+              </div>
+          </div>
+          <div class="notif-list" id="notif-list-hidden" style="display:none;">
+            <div class="notif-item" id="notif-8">
+              <div class="notif-title">Spring Appeal email had a 42% open rate</div>
+              <div class="notif-sub">Your latest campaign outperformed your average by 12%. Top performing segment: Major Donors.</div>
+              <div class="notif-actions">
+                <button class="notif-dismiss-btn" onclick="notifShow('notif-8')">Restore</button>
+                <span class="notif-action-date">June 28 at 2:15 PM</span>
+              </div>
+            </div>
+            <div class="notif-item" id="notif-9">
+              <div class="notif-title">2 recurring schedules failed last week</div>
+              <div class="notif-sub">Payment processing failed for Margaret Ellis and David Nguyen. Cards may need to be updated.</div>
+              <div class="notif-actions">
+                <button class="notif-dismiss-btn" onclick="notifShow('notif-9')">Restore</button>
+                <span class="notif-action-date">June 25 at 11:45 AM</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <button class="ic-btn" aria-label="Help"><svg class="nav-svg-icon" aria-hidden="true"><use href="#icon-circle-question"/></svg></button>
       <div class="nav-avatar-wrap" tabindex="0" role="button" aria-label="User menu"><div class="nav-avatar">T</div></div>
       <button class="ic-btn penny-ic" id="pennyTrigger" aria-label="Ask Penny" onclick="togglePenny()">
@@ -990,7 +1117,7 @@ table.atbl tr:last-child td{border-bottom:none;}
         <a class="sub-item" href="#">Import</a>
         <a class="sub-item" href="#">API Access</a>
         <a class="sub-item" href="#">Bulk Update</a>
-        <a class="sub-item" href="#" onclick="event.preventDefault();showView('datahealth')">Data Health Hub<span class="nav-dot"></span></a>
+        <a class="sub-item" href="#" onclick="event.preventDefault();showView('datahealth')">Data Health Hub<span class="nav-badge">61</span></a>
       </div>
 
       <a class="nav-item" href="#" onclick="nav(event,null)" role="listitem">
@@ -1033,12 +1160,12 @@ table.atbl tr:last-child td{border-bottom:none;}
             <span class="tile-badge">Data Health Agent</span>
           </div>
           <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;border-bottom:1px solid var(--platform-20);padding-bottom:16px;gap:6px;">
-            <a href="#" onclick="event.preventDefault();showView('datahealth')" style="font-size:56px;font-weight:700;line-height:1;color:var(--platform-100);text-decoration:none;" onmouseover="this.style.color='var(--crm-100)';this.style.textDecoration='underline'" onmouseout="this.style.color='var(--platform-100)';this.style.textDecoration='none'">58</a>
+            <a href="#" onclick="event.preventDefault();showView('datahealth')" style="font-size:56px;font-weight:700;line-height:1;color:var(--platform-100);text-decoration:none;" onmouseover="this.style.color='var(--crm-100)';this.style.textDecoration='underline'" onmouseout="this.style.color='var(--platform-100)';this.style.textDecoration='none'">61</a>
             <div style="font-size:14px;color:var(--platform-100);">Data quality issues found</div>
             <button class="dh-btn dh-btn--ghost" onclick="showView('datahealth')" style="margin-top:12px;font-size:14px;">View Data Health Hub</button>
           </div>
           <div style="display:flex;flex-direction:column;gap:10px;flex-shrink:0;">
-            <div style="display:flex;align-items:center;gap:8px;font-size:16px;"><a href="#" onclick="event.preventDefault();dhGoToCat('dupes');" style="font-weight:700;min-width:28px;color:var(--platform-100);text-decoration:none;" onmouseover="this.style.color='var(--crm-100)';this.style.textDecoration='underline'" onmouseout="this.style.color='var(--platform-100)';this.style.textDecoration='none'">18</a><span style="color:var(--platform-80);">Duplicate constituents</span></div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:16px;"><a href="#" onclick="event.preventDefault();dhGoToCat('dupes');" style="font-weight:700;min-width:28px;color:var(--platform-100);text-decoration:none;" onmouseover="this.style.color='var(--crm-100)';this.style.textDecoration='underline'" onmouseout="this.style.color='var(--platform-100)';this.style.textDecoration='none'">21</a><span style="color:var(--platform-80);">Duplicate constituents</span></div>
             <div style="display:flex;align-items:center;gap:8px;font-size:16px;"><a href="#" onclick="event.preventDefault();dhGoToCat('names');" style="font-weight:700;min-width:28px;color:var(--platform-100);text-decoration:none;" onmouseover="this.style.color='var(--crm-100)';this.style.textDecoration='underline'" onmouseout="this.style.color='var(--platform-100)';this.style.textDecoration='none'">40</a><span style="color:var(--platform-80);">Name formatting</span></div>
           </div>
         </div>
@@ -2966,6 +3093,96 @@ function nav(e, viewName) {
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
   e.currentTarget.classList.add('active');
   if (viewName) showView(viewName);
+}
+
+function toggleNotifDropdown(){var dd=document.getElementById('notifDropdown');dd.classList.toggle('open');}
+document.addEventListener('click',function(e){var dd=document.getElementById('notifDropdown');if(dd&&!e.target.closest('.notif-dropdown')&&!e.target.closest('.ic-btn.dot')){dd.classList.remove('open');}});
+
+function notifSwitchTab(tab){
+  event.stopPropagation();
+  document.getElementById('notif-tab-new').classList.toggle('active',tab==='new');
+  document.getElementById('notif-tab-hidden').classList.toggle('active',tab==='hidden');
+  document.getElementById('notif-list-new').style.display=tab==='new'?'block':'none';
+  document.getElementById('notif-list-hidden').style.display=tab==='hidden'?'block':'none';
+}
+
+function notifHide(id){
+  var el=document.getElementById(id);
+  if(!el)return;
+  var hiddenList=document.getElementById('notif-list-hidden');
+  var empty=hiddenList.querySelector('.notif-empty');
+  if(empty)empty.remove();
+  var dismissBtn=el.querySelector('.notif-dismiss-btn');
+  if(dismissBtn){dismissBtn.textContent='Restore';dismissBtn.setAttribute('onclick','notifShow(\''+id+'\')');}
+  var actionBtn=el.querySelector('.notif-action-btn');
+  if(actionBtn)actionBtn.style.display='none';
+  hiddenList.appendChild(el);
+  notifUpdateCounts();
+}
+
+function notifShow(id){
+  var el=document.getElementById(id);
+  if(!el)return;
+  var newList=document.getElementById('notif-list-new');
+  var dismissBtn=el.querySelector('.notif-dismiss-btn');
+  if(dismissBtn){dismissBtn.textContent='Dismiss';dismissBtn.setAttribute('onclick','notifHide(\''+id+'\')');}
+  var actionBtn=el.querySelector('.notif-action-btn');
+  if(actionBtn)actionBtn.style.display='';
+  newList.appendChild(el);
+  notifUpdateCounts();
+}
+
+function notifUpdateCounts(){
+  var newCount=document.querySelectorAll('#notif-list-new .notif-item').length;
+  var hiddenCount=document.querySelectorAll('#notif-list-hidden .notif-item').length;
+  document.getElementById('notif-badge-new').textContent=newCount;
+  document.getElementById('notif-badge-hidden').textContent=hiddenCount;
+  // Empty states
+  var newList=document.getElementById('notif-list-new');
+  var hiddenList=document.getElementById('notif-list-hidden');
+  newList.querySelectorAll('.notif-empty').forEach(function(e){e.remove();});
+  hiddenList.querySelectorAll('.notif-empty').forEach(function(e){e.remove();});
+  if(newCount===0)newList.innerHTML='<div class="notif-empty">You\'re all caught up</div>';
+  if(hiddenCount===0)hiddenList.innerHTML='<div class="notif-empty">No hidden notifications</div>';
+  // Bell dot
+  var bell=document.querySelector('.ic-btn.dot');
+  if(bell){if(newCount===0)bell.classList.remove('dot');else bell.classList.add('dot');}
+}
+
+function notifOpenPenny(prompt){
+  document.getElementById('notifDropdown').classList.remove('open');
+  var penny=document.getElementById('pennyDrawer');
+  if(penny){penny.classList.add('open');}
+  var home=document.getElementById('pdHome');
+  if(home)home.style.display='none';
+  var msgs=document.getElementById('pdMsgs');
+  if(!msgs)return;
+  msgs.style.display='flex';
+
+  var responses={
+    'recurring': '<strong>Here\'s what I found about the recurring giving decline:</strong><br><br>Recurring revenue dropped <strong>12% month-over-month</strong>, from $18,420 in June to $16,210 in July. Here\'s what happened:<br><br>• <strong>8 schedules were canceled</strong> — 5 were voluntary cancellations, 3 were payment failures that weren\'t recovered<br>• The average canceled schedule was <strong>$45/month</strong> and had been active for 6.2 months<br>• <strong>3 of the 8 cancellations</strong> came from donors who also stopped opening emails in the last 60 days<br><br>The good news: <strong>4 new recurring schedules</strong> were created this month ($280/month total), partially offsetting the loss.<br><br>Would you like me to draft a re-engagement email for the 5 voluntary cancellations? I can also flag the 3 payment failures for your team to follow up on.',
+    'lapsing': '<strong>I\'ve identified 13 donors at risk of lapsing.</strong> Here\'s the breakdown:<br><br>These donors gave a combined <strong>$47,850 last fiscal year</strong> but haven\'t made a gift in 11+ months. If they don\'t give in the next 30 days, they\'ll be classified as lapsed.<br><br><strong>Top 5 by last gift amount:</strong><br>• James Torres — $5,000 (last gift: Aug 12, 2025)<br>• Linda Park — $2,500 (last gift: Jul 28, 2025)<br>• Robert Chen — $1,000 (last gift: Aug 3, 2025)<br>• Maria Santos — $1,000 (last gift: Jul 15, 2025)<br>• David Kim — $750 (last gift: Sep 1, 2025)<br><br>The remaining 8 donors gave between $100–$500 each.<br><br><strong>Common patterns:</strong> 10 of 13 have reduced email engagement, and 7 haven\'t logged into their donor portal in 6+ months.<br><br>I can generate personalized re-engagement emails for each donor, or build a report with all their details. What would you prefer?',
+    'summary': '<strong>Here\'s your weekly giving summary for July 1–7:</strong><br><br>• <strong>Total gifts:</strong> $4,280 across 32 transactions<br>• <strong>Up 8%</strong> from last week ($3,963 / 28 transactions)<br>• <strong>Average gift:</strong> $133.75 (up from $141.54 — more gifts, smaller amounts)<br><br><strong>Highlights:</strong><br>• Largest single gift: <strong>$500</strong> from Patricia Wells (first-time donor!)<br>• <strong>6 new donors</strong> this week, compared to 3 last week<br>• Online giving made up <strong>78%</strong> of transactions<br><br><strong>Recurring giving:</strong> $2,140 of the total came from active recurring schedules (50%), which is consistent with your 3-month average.<br><br>Your monthly pace is tracking <strong>$18,340</strong> — that\'s 4% ahead of June. Want me to compare this to the same period last year?'
+  };
+
+  var key='recurring';
+  if(prompt.indexOf('lapsing')!==-1||prompt.indexOf('13 donors')!==-1)key='lapsing';
+  else if(prompt.indexOf('summary')!==-1||prompt.indexOf('week')!==-1)key='summary';
+
+  var bubbleHtml='<div style="align-self:flex-end;background:var(--platform-5);border-radius:6px;padding:12px 16px;font-size:16px;line-height:21px;color:var(--platform-100);max-width:80%;">'+prompt+'</div>';
+  var responseHtml='<div style="font-size:16px;font-weight:400;line-height:23px;color:var(--platform-100);">'+responses[key]+'</div>';
+  var iconsHtml='<div style="display:flex;gap:4px;margin-top:4px;"><button style="width:32px;height:32px;display:flex;align-items:center;justify-content:center;background:none;border:none;border-radius:16px;color:var(--platform-80);font-size:14px;cursor:pointer;" title="Copy"><i class="fa-regular fa-copy"></i></button><button style="width:32px;height:32px;display:flex;align-items:center;justify-content:center;background:none;border:none;border-radius:16px;color:var(--platform-80);font-size:14px;cursor:pointer;" title="Thumbs up"><i class="fa-regular fa-thumbs-up"></i></button><button style="width:32px;height:32px;display:flex;align-items:center;justify-content:center;background:none;border:none;border-radius:16px;color:var(--platform-80);font-size:14px;cursor:pointer;" title="Thumbs down"><i class="fa-regular fa-thumbs-down"></i></button></div>';
+
+  msgs.innerHTML=bubbleHtml+responseHtml+iconsHtml;
+  var input=document.querySelector('.pd-input');
+  if(input)input.value='';
+}
+function notifNav(target){
+  document.getElementById('notifDropdown').classList.remove('open');
+  if(target==='dupes'){showView('datahealth');setTimeout(function(){dhGoToCat('dupes');},100);}
+  else if(target==='names'){showView('datahealth');setTimeout(function(){dhGoToCat('names');},100);}
+  else if(target==='datahealth'){showView('datahealth');}
+  else if(target==='dashboard'){showView('dashboard');}
 }
 
 function toggleNav() {
